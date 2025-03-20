@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace WebA
@@ -11,8 +7,10 @@ namespace WebA
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            // Отключаем ненужные маршруты
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Основной маршрут по умолчанию для Home/Index
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
