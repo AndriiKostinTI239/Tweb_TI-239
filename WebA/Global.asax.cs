@@ -10,11 +10,9 @@ namespace WebA
     {
         void Application_Start(object sender, EventArgs e)
         {
-            // Регистрация всех маршрутов
+            AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            // Регистрация бандлов
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            BundleConfig.RegisterBundles(BundleTable.Bundles); // Важно: вызов регистрации бандлов
         }
     }
 }

@@ -1,26 +1,8 @@
 ﻿@using System.Web.Optimization
 
 @{
-    ViewBag.Title = "Главная страница";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-
-    <!-- Подключаем стили через бандл -->
-    @Styles.Render("~/bundles/bootstrap/css")
-</head>
-<body>
-    <div class="container">
-        <h1>Добро пожаловать на главную страницу!</h1>
-        <p>Это тестовая страница для проверки бандлов CSS и JS.</p>
-
-        <!-- Подключаем скрипты через бандл -->
-        @Scripts.Render("~/bundles/jquery")
-    </div>
-</body>
-</html>
+<h2>Добро пожаловать на главную страницу!</h2>
+<p>Это содержимое страницы.</p>

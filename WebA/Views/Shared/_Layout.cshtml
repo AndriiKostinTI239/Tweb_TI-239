@@ -10,35 +10,55 @@
     <!-- Подключаем стили через бандл -->
     @Styles.Render("~/bundles/bootstrap/css")
 
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            height: 2000px; /* Высота контента больше высоты экрана */
+            padding: 20px;
+            color: white;
+            font-size: 24px;
+        }
+
+    </style>
+
+</head>
+<body style="background-color: #d9e3f1;">
     <!-- Навигация с контактной информацией -->
-<nav class="navbar navbar-expand-lg" style="background-color: #33c4ff;">
-    <div class="container-fluid" style="background-color: #33c4ff;">
-        <a class="navbar-brand" href="#">Navbar w/ text</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    
+    <nav class="navbar fixed-top" style="background-color: #368dfd; --bs-scroll-height: 200px;" data-bs-theme="dark;">
+        <div class=".container-fluid">
+            <ul class="nav justify-content-center">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="#">Active</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <span class="navbar-text">
-                Navbar text with an inline element
-            </span>
         </div>
+    </nav>
+
+    <div class="content">
+        <p>Этот блок имеет высоту 2000px, поэтому страница будет прокручиваться.</p>
+        <p><p><h1>Прокрутите вниз</h1>
+        <p>Этот блок имеет высоту 2000px, поэтому страница будет прокручиваться.</p>
+        <button type="button" class="btn btn-primary">Primary</button>
     </div>
-</nav>
-</head>
-<body>
-    @RenderBody() <!-- Контент каждой страницы будет вставлен сюда -->
-    <!-- Подключаем скрипты через бандл -->
-    @Scripts.Render("~/bundles/jquery")
+    
+
+        @RenderBody() <!-- Контент каждой страницы будет вставлен сюда -->
+        <!-- Подключаем скрипты через бандл -->
+        @Scripts.Render("~/bundles/bootstrap/js")
+
 </body>
 </html>
