@@ -17,10 +17,17 @@
         }
 
         .content {
-            height: 2000px; /* Высота контента больше высоты экрана */
+            height: 70px; /* Высота контента больше высоты экрана */
             padding: 20px;
             color: white;
             font-size: 24px;
+        }
+
+
+        .custom-image1 {
+            height: 50px;
+            width: 50px;
+            padding: 5px;
         }
 
     </style>
@@ -31,27 +38,29 @@
     
     <nav class="navbar fixed-top" style="background-color: #368dfd; --bs-scroll-height: 200px;" data-bs-theme="dark;">
         <div class=".container-fluid">
+
             <ul class="nav justify-content-center">
+               
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" type="button" class="btn">
+                    <img src="https://www.pngarts.com/files/17/Forum-PNG-Free-Download.png" class="custom-image1" />
+                </a>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Active</a>
+                    <a class="nav-link" href="#">
+                        <p class="fs-4 fw-bold" style="color: #d9e3f1;">Темы</p>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="#">
+                        <p class=" fs-4 fw-bold" style="color: #d9e3f1;">Аккаунт</p>
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
+
             </ul>
         </div>
     </nav>
 
     <div class="content">
-        <p>Этот блок имеет высоту 2000px, поэтому страница будет прокручиваться.</p>
-        <p><p><h1>Прокрутите вниз</h1>
-        <p>Этот блок имеет высоту 2000px, поэтому страница будет прокручиваться.</p>
+       
         <button type="button" class="btn btn-primary">Primary</button>
     </div>
     
