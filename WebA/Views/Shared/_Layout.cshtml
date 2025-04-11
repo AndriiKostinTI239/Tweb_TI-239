@@ -11,11 +11,6 @@
     @Styles.Render("~/bundles/bootstrap/css")
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
         .content {
             height: 70px; /* Высота контента больше высоты экрана */
             padding: 20px;
@@ -24,50 +19,46 @@
         }
 
 
-        .custom-image1 {
-            height: 50px;
-            width: 50px;
-            padding: 5px;
-        }
-
     </style>
 
 </head>
 <body style="background-color: #d9e3f1;">
     <!-- Навигация с контактной информацией -->
-    
-    <nav class="navbar fixed-top" style="background-color: #368dfd; --bs-scroll-height: 200px;" data-bs-theme="dark;">
-        <div class=".container-fluid">
 
-            <ul class="nav justify-content-center">
-               
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" type="button" class="btn">
-                    <img src="https://www.pngarts.com/files/17/Forum-PNG-Free-Download.png" class="custom-image1" />
-                </a>
+    <nav class="navbar fixed-top" style="background-color: #368dfd; padding: 5px 0;" data-bs-theme="dark">
+        <div class="container-fluid d-flex align-items-center">
+            <!-- Меню слева -->
+            <ul class="nav justify-content-start">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <p class="fs-4 fw-bold" style="color: #d9e3f1;">Темы</p>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" type="button" class="btn p-0">
+                        <img src="https://www.pngarts.com/files/17/Forum-PNG-Free-Download.png" class="custom-image1" style="height: 50px; width: 50px; padding: 3px;" />
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <p class=" fs-4 fw-bold" style="color: #d9e3f1;">Аккаунт</p>
+                    <a class="nav-link px-2" href="#">
+                        <p class="fs-5 fw-bold m-0" style="color: #d9e3f1;">Темы</p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link px-2" href="#">
+                        <p class="fs-5 fw-bold m-0" style="color: #d9e3f1;">Аккаунт</p>
+                    </a>
+                </li>
             </ul>
+
+            <!-- Поиск справа -->
+            <form class="d-flex ms-auto" role="search" style="height: 30px;">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="height: 30px; font-size: 14px;">
+                <button class="btn p-1" type="submit" style="height: 30px; font-size: 14px;">🔍</button>
+            </form>
         </div>
     </nav>
 
-    <div class="content">
-       
-        <button type="button" class="btn btn-primary">Primary</button>
-    </div>
-    
 
-        @RenderBody() <!-- Контент каждой страницы будет вставлен сюда -->
-        <!-- Подключаем скрипты через бандл -->
-        @Scripts.Render("~/bundles/bootstrap/js")
+
+    @RenderBody() <!-- Контент каждой страницы будет вставлен сюда -->
+    <!-- Подключаем скрипты через бандл -->
+    @Scripts.Render("~/bundles/bootstrap/js")
 
 </body>
 </html>
