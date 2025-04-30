@@ -1,0 +1,39 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Мое Приложение</title>
+    @Styles.Render("~/Content/css") <!-- Подключаем базовые стили Bootstrap -->
+    @* Если есть отдельный CSS для страницы входа/регистрации, подключите его здесь *@
+    <style>
+        /* Простые стили для центрирования и фона */
+        body {
+            background-color: #f8f9fa; /* Светло-серый фон, как на примере */
+        }
+
+        .auth-container {
+            margin-top: 5rem; /* Отступ сверху */
+        }
+
+        .auth-card {
+            padding: 2rem;
+            background-color: #fff; /* Белый фон карточки */
+            border-radius: 0.25rem;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15); /* Тень как на примере */
+        }
+    </style>
+</head>
+<body class="blank">
+    @* Добавлен класс blank, если он используется в CSS *@
+    <div class="container auth-container">
+        @RenderBody() <!-- Сюда будет вставляться содержимое View (формы) -->
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")   <!-- Подключаем jQuery -->
+    @Scripts.Render("~/bundles/bootstrap") <!-- Подключаем Bootstrap JS -->
+    @RenderSection("scripts", required: false) <!-- Секция для скриптов конкретной страницы -->
+</body>
+</html>
+

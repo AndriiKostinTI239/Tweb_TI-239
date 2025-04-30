@@ -1,0 +1,53 @@
+﻿@using System.Web.Optimization
+@model labTW.Domain.Entities.Users.ULoginData
+@{
+    Layout = "~/Views/Shared/_Layout_Blank.cshtml"; // <-- ЭТА СТРОКА ДОЛЖНА БЫТЬ!
+    ViewBag.Title = "Вход";
+}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="auth-card">
+            <h2 class="text-center mb-4">@ViewBag.Title</h2>
+
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group mb-3">
+                    @Html.LabelFor(m => m.Credential, "Имя пользователя", new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Credential, new { @class = "form-control", placeholder = "Введите имя пользователя" })
+                    @Html.ValidationMessageFor(m => m.Credential, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group mb-3">
+                    @Html.LabelFor(m => m.Password, "Пароль", new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Введите пароль" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                @* Опционально: галочка "Запомнить меня" *@
+                @*<div class="form-check mb-3">
+                        @Html.CheckBox("rememberMe", false, new { @class="form-check-input"})
+                        @Html.Label("rememberMe", "Запомнить меня", new { @class="form-check-label"})
+                    </div>*@
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary btn-block">Войти</button> <!-- Синяя кнопка -->
+                </div>
+
+                <p class="text-center">
+                    Нет аккаунта? @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+                </p>
+                @* Опционально: ссылка на сброс пароля *@
+                @*<p class="text-center">
+                        @Html.ActionLink("Забыли пароль?", "ForgotPassword", "Account")
+                    </p>*@
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
