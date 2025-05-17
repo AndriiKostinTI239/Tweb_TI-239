@@ -8,10 +8,10 @@ using labTW.Domain.Entities.Users;
 
 namespace BusinessLogic.DBModel
 {
-     class UserContext : DbContext
+    public class UserContext : DbContext
     {
         public UserContext() : 
-            base("name=eUseControl")
+            base("name=DefaultConnection")
         {  
         }
         public virtual DbSet<UDbTable> Users { get; set; }

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework> 
+    <!-- Попробуйте сначала с этими строками. Если будут ошибки компиляции -->
+    <!-- после смены на net472, попробуйте их изменить на disable -->
+    <!-- или удалить, и добавьте using явно в .cs файлы. -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>tweb.DAL</AssemblyName>         <!-- Добавлено для явности -->
+    <RootNamespace>tweb.DAL</RootNamespace>     <!-- Добавлено для явности, измените если ваши неймспейсы другие (например, labTW.DAL) -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogic\labTW.BusinessLogic.csproj" />
+    <ProjectReference Include="..\labTW.Domain\labTW.Domain.csproj" />
+  </ItemGroup>
+
+  <!-- Явная ссылка на сборку .NET Framework, используемую EF -->
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+
+</Project>

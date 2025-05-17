@@ -1,11 +1,12 @@
-﻿using labTW.BusinessLogic;
+﻿using labTW.BusinessLogic.Interfaces; // Правильный namespace для ISession
+using labTW.Domain.Entities.Users;
 using System;
-using System.Collections.Generic;
+using System.Deployment.Internal;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using labTW.BusinessLogic.Interfaces; // Правильный namespace для ISession
-using labTW.Domain.Entities.Users;
+using WebA.Models;
+using BusinessLogic.DBModel;
 
 namespace WebA.Controllers
 {
@@ -27,16 +28,27 @@ namespace WebA.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(ULoginData login)
+        public ActionResult Index(UserLogin login)
         {
             if (ModelState.IsValid)
             {
-                var loginResponse = _session.UserLogin(login.Credential, login.Password); // Переименовал переменную для ясности
+                ULoginData data = new ULoginData
+                {
+                    Credential = login.UserName,
+                    Password = login.Password,
+                    LoginIP = Request.UserHostAddress,
+                    LoginDateTime = DateTime.Now
+
+                };
+
+                var loginResponse = _session.UserLogin(login.UserName, login.Password); // Переименовал переменную для ясности
 
                 // 2. Проверяем свойство LoginSuccessful внутри объекта ответа
                 if (loginResponse.LoginSuccessful)
                 {
                     // Вход успешен
+
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -46,9 +58,26 @@ namespace WebA.Controllers
                     ModelState.AddModelError("", loginResponse.Message ?? "Неверные учетные данные");
                 }
             }
-
-            // Если модель не валидна или вход не удался, возвращаем ту же View
             return View(login);
         }
+
+        internal UserLoginResp UserLoginAction(ULoginData data)
+        {
+            UDbTable user;
+            using (var db = new UserContext())
+            {
+                user = db.Users.FirstOrDefault(u => u.Username == data.Credential);
+            }
+
+            using (var db = new UserContext())
+            {
+                user = (from u in db.Users where u.Username == data.Credential select u).FirstOrDefault();
+            }
+
+            return null;
         }
+
+        }
+            // Если модель не валидна или вход не удался, возвращаем ту же View
+
     }

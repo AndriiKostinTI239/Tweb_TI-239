@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "labTW.Domain", "labTW.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "labTW.Helpers", "labTW.Helpers\labTW.Helpers.csproj", "{50CF6F6D-CC02-4385-8AA0-4DB8F57B742C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tweb.DAL", "tweb.DAL\tweb.DAL.csproj", "{8A094E1D-C6C6-478F-A66C-DD4F49D62ACA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwebDAL.Migrator", "TwebDAL.Migrator\TwebDAL.Migrator.csproj", "{6C555C51-4DD7-4B97-9084-979DAF26A42C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +37,19 @@ Global
 		{50CF6F6D-CC02-4385-8AA0-4DB8F57B742C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50CF6F6D-CC02-4385-8AA0-4DB8F57B742C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50CF6F6D-CC02-4385-8AA0-4DB8F57B742C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A094E1D-C6C6-478F-A66C-DD4F49D62ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A094E1D-C6C6-478F-A66C-DD4F49D62ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A094E1D-C6C6-478F-A66C-DD4F49D62ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A094E1D-C6C6-478F-A66C-DD4F49D62ACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C555C51-4DD7-4B97-9084-979DAF26A42C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C555C51-4DD7-4B97-9084-979DAF26A42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C555C51-4DD7-4B97-9084-979DAF26A42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C555C51-4DD7-4B97-9084-979DAF26A42C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {630E1241-6F09-4220-8B8C-692004810375}
 	EndGlobalSection
 EndGlobal
