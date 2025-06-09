@@ -43,12 +43,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTOs\AddCommentDto.cs" />
+    <Compile Include="DTOs\CreateTrheadDto.cs" />
     <Compile Include="DTOs\SignIn.cs" />
     <Compile Include="DTOs\SignUp.cs" />
+    <Compile Include="DTOs\ThreadDto.cs" />
+    <Compile Include="Entities\CommentEf.cs" />
+    <Compile Include="Entities\ThreaEf.cs" />
     <Compile Include="Entities\UserEf.cs" />
     <Compile Include="Enums\UserRole.cs" />
+    <Compile Include="Interfaces\Repositories\ICommentRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IThreadRepository.cs" />
     <Compile Include="Interfaces\Repositories\IUserRepository.cs" />
     <Compile Include="Interfaces\Services\IAuthService.cs" />
+    <Compile Include="Interfaces\Services\IThreadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

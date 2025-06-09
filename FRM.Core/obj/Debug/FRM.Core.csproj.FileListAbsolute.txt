@@ -4,3 +4,9 @@ C:\Users\Young\source\repos\FRM\FRM.Core\obj\Debug\FRM.Core.csproj.AssemblyRefer
 C:\Users\Young\source\repos\FRM\FRM.Core\obj\Debug\FRM.Core.csproj.CoreCompileInputs.cache
 C:\Users\Young\source\repos\FRM\FRM.Core\obj\Debug\FRM.Core.dll
 C:\Users\Young\source\repos\FRM\FRM.Core\obj\Debug\FRM.Core.pdb
+D:\FRM\FRM.Core\bin\Debug\FRM.Core.dll
+D:\FRM\FRM.Core\bin\Debug\FRM.Core.pdb
+D:\FRM\FRM.Core\obj\Debug\FRM.Core.csproj.AssemblyReference.cache
+D:\FRM\FRM.Core\obj\Debug\FRM.Core.csproj.CoreCompileInputs.cache
+D:\FRM\FRM.Core\obj\Debug\FRM.Core.dll
+D:\FRM\FRM.Core\obj\Debug\FRM.Core.pdb

@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="container mt-4" style="position: relative; top: 40px;">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-primary">@Model.Title</h2>
+
+            <div class="text-muted small mb-3">
+                <i class="fa fa-user"></i> Posted @Model.PostedAt.ToString("g") by <strong>@Model.Author</strong>
+            </div>
+
+            <div class="mb-3">
+                <strong>Tags:</strong>
+                @foreach (var tag in Model.Tags)
+                {
+                    <span class="badge bg-primary me-1">@tag</span>
+                }
+            </div>
+
+            <hr />
+
+            <div class="mb-4" style="white-space: pre-line;">
+                <p>@Model.Content</p>
+            </div>
+
+            <div class="text-muted small">
+                <strong>Votes:</strong> @Model.Votes |
+                <strong>Replies:</strong> @Model.Replies |
+                <strong>Views:</strong> @Model.Views
+            </div>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h4>Добавить комментарий</h4>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-action="AddComment" asp-controller="Thread" method="post">
+                <input type="hidden" name="threadId" value="@Model.Id" />
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" rows="3" placeholder="Введите ваш комментарий"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        }
+        else
+        {
+            <p>Пожалуйста, <a href="@Url.Action("Login", "Account")">войдите</a>, чтобы оставить комментарий.</p>
+        }
+    </div>
+
+    <div class="mt-5">
+        <h4>Комментарии</h4>
+
+        <!-- Пример комментария -->
+        <div class="card mb-3">
+

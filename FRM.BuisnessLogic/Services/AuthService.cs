@@ -22,11 +22,7 @@ namespace FRM.BuisnessLogic.Services
         private readonly IUserRepository _userRepo;
         private readonly Hasher _hasher;
         
-        public AuthService()
-        {
-            _userRepo = new UserRepository(); 
-            _hasher = new Hasher();
-        }
+        
 
         public AuthService(IUserRepository userRepo, Hasher hasher)
         {

@@ -128,6 +128,8 @@ C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.csproj.CoreCompileInputs.cache
 C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.csproj.Up2Date
 C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.dll
 C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.pdb
+D:\FRM\FRM\obj\Debug\FRM.csproj.AssemblyReference.cache
+D:\FRM\FRM\obj\Debug\FRM.csproj.CoreCompileInputs.cache
 D:\FRM\FRM\bin\FRM.dll.config
 D:\FRM\FRM\bin\FRM.dll
 D:\FRM\FRM\bin\FRM.pdb
@@ -253,8 +255,6 @@ D:\FRM\FRM\bin\Microsoft.IdentityModel.Abstractions.xml
 D:\FRM\FRM\bin\System.Diagnostics.DiagnosticSource.xml
 D:\FRM\FRM\bin\Microsoft.Extensions.Logging.Abstractions.xml
 D:\FRM\FRM\bin\Microsoft.Bcl.TimeProvider.xml
-D:\FRM\FRM\obj\Debug\FRM.csproj.AssemblyReference.cache
-D:\FRM\FRM\obj\Debug\FRM.csproj.CoreCompileInputs.cache
 D:\FRM\FRM\obj\Debug\FRM.csproj.Up2Date
 D:\FRM\FRM\obj\Debug\FRM.dll
 D:\FRM\FRM\obj\Debug\FRM.pdb

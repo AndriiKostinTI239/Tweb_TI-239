@@ -4,21 +4,32 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using FRM.BuisnessLogic.Helper;
 using FRM.BuisnessLogic.Services;
 using FRM.Core.DTOs;
 using FRM.Core.Interfaces.Repositories;
 using FRM.Core.Interfaces.Services;
+using FRM.Domain;
 using FRM.Domain.Repositories;
 
 namespace FRM.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAuthService _authService = new AuthService();
-        
+        private readonly IAuthService _authService;
 
-        
-        [HttpGet]
+      
+            public AccountController()
+            {
+                // Создаем зависимости
+                var context = new AppDbContext();
+                var userRepo = new UserRepository(context);
+                var hasher = new Hasher();
+
+                _authService = new AuthService(userRepo, hasher);
+            }
+
+            [HttpGet]
         public ActionResult SignIn() => View();
         
         [HttpGet]

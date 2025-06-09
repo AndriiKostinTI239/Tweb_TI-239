@@ -93,8 +93,14 @@
     <Compile Include="Migrations\202506090119120_auth.Designer.cs">
       <DependentUpon>202506090119120_auth.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506092106064_AddThreadsAndComments.cs" />
+    <Compile Include="Migrations\202506092106064_AddThreadsAndComments.Designer.cs">
+      <DependentUpon>202506092106064_AddThreadsAndComments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CommentRepository.cs" />
+    <Compile Include="Repositories\ThreadRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +116,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202506090119120_auth.resx">
       <DependentUpon>202506090119120_auth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506092106064_AddThreadsAndComments.resx">
+      <DependentUpon>202506092106064_AddThreadsAndComments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -47,6 +47,8 @@ C:\Users\Young\source\repos\FRM\FRM.BuisnessLogic\bin\Debug\EntityFramework.xml
 C:\Users\Young\source\repos\FRM\FRM.BuisnessLogic\obj\Debug\FRM.Buis.D8828D91.Up2Date
 C:\Users\Young\source\repos\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.dll
 C:\Users\Young\source\repos\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.pdb
+D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.csproj.AssemblyReference.cache
+D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.csproj.CoreCompileInputs.cache
 D:\FRM\FRM.BuisnessLogic\bin\Debug\FRM.BuisnessLogic.dll.config
 D:\FRM\FRM.BuisnessLogic\bin\Debug\FRM.BuisnessLogic.dll
 D:\FRM\FRM.BuisnessLogic\bin\Debug\FRM.BuisnessLogic.pdb
@@ -91,8 +93,6 @@ D:\FRM\FRM.BuisnessLogic\bin\Debug\System.Text.Json.xml
 D:\FRM\FRM.BuisnessLogic\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\FRM\FRM.BuisnessLogic\bin\Debug\System.ValueTuple.xml
 D:\FRM\FRM.BuisnessLogic\bin\Debug\EntityFramework.xml
-D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.csproj.AssemblyReference.cache
-D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.csproj.CoreCompileInputs.cache
 D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.Buis.D8828D91.Up2Date
 D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.dll
 D:\FRM\FRM.BuisnessLogic\obj\Debug\FRM.BuisnessLogic.pdb
