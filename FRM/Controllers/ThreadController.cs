@@ -16,19 +16,17 @@ namespace FRM.Controllers
     public class ThreadController : Controller
     {
         private readonly IThreadService _threadService;
-        private readonly IAuthService _authService;
-        private readonly AppDbContext _context;
+      
 
         public ThreadController()
         {
-            _context = new AppDbContext();
-            var threadRepo = new ThreadRepository(_context);
-            var commentRepo = new CommentRepository(_context);
-            var userRepo = new UserRepository(_context);
-            var hasher = new Hasher();
+            var context = new AppDbContext();
+
+            var userRepo = new UserRepository(context);
+            var threadRepo = new ThreadRepository(context);
+            var commentRepo = new CommentRepository(context);
 
             _threadService = new ThreadService(threadRepo, commentRepo, userRepo);
-            _authService = new AuthService(userRepo, hasher);
         }
     
     // Остальной код...
