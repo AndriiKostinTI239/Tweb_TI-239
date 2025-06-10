@@ -87,7 +87,7 @@
         </member>
         <member name="T:System.IdentityModel.Tokens.Jwt.JwtHeader">
             <summary>
-            Initializes a new instance of <see cref="T:System.IdentityModel.Tokens.Jwt.JwtHeader"/> which contains JSON objects representing the cryptographic operations applied to the JWT and optionally any additional properties of the JWT. 
+            Initializes a new instance of <see cref="T:System.IdentityModel.Tokens.Jwt.JwtHeader"/> which contains JSON objects representing the cryptographic operations applied to the JWT and optionally any additional properties of the JWT.
             The member names within the JWT Header are referred to as Header Parameter Names.
             <para>These names MUST be unique and the values must be <see cref="T:System.String"/>(s). The corresponding values are referred to as Header Parameter Values.</para>
             </summary>
@@ -138,6 +138,18 @@
             <param name="outboundAlgorithmMap">provides a mapping for the 'alg' value so that values are within the JWT namespace.</param>
             <param name="tokenType"> will be added as the value for the 'typ' claim in the header. If it is null or empty <see cref="F:System.IdentityModel.Tokens.Jwt.JwtConstants.HeaderType"/> will be used as token type</param>
         </member>
+        <member name="M:System.IdentityModel.Tokens.Jwt.JwtHeader.#ctor(Microsoft.IdentityModel.Tokens.SigningCredentials,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:System.IdentityModel.Tokens.Jwt.JwtHeader"/>.
+            With the Header Parameters:
+            <para>{ { typ, JWT }, { alg, SigningCredentials.Algorithm } }</para>
+            </summary>
+            <param name="signingCredentials"><see cref="P:System.IdentityModel.Tokens.Jwt.JwtHeader.SigningCredentials"/> used when creating a JWS Compact JSON.</param>
+            <param name="outboundAlgorithmMap">provides a mapping for the 'alg' value so that values are within the JWT namespace.</param>
+            <param name="tokenType"> will be added as the value for the 'typ' claim in the header. If it is null or empty <see cref="F:System.IdentityModel.Tokens.Jwt.JwtConstants.HeaderType"/> will be used as token type</param>
+            <param name="additionalInnerHeaderClaims">Defines the dictionary containing any custom header claims that need to be added to the inner JWT token header.</param>
+            <param name="includeKeyIdInHeader">Controls if key identifying information should be stored in the header</param>
+        </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtHeader.#ctor(Microsoft.IdentityModel.Tokens.SigningCredentials,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             Initializes a new instance of <see cref="T:System.IdentityModel.Tokens.Jwt.JwtHeader"/>.
@@ -168,6 +180,19 @@
             <param name="encryptingCredentials"><see cref="P:System.IdentityModel.Tokens.Jwt.JwtHeader.EncryptingCredentials"/> used when creating a JWS Compact JSON.</param>
             <param name="outboundAlgorithmMap">provides a mapping for the 'alg' value so that values are within the JWT namespace.</param>
             <param name="tokenType"> provides the token type</param>
+            <exception cref="T:System.ArgumentNullException">If 'encryptingCredentials' is null.</exception>
+        </member>
+        <member name="M:System.IdentityModel.Tokens.Jwt.JwtHeader.#ctor(Microsoft.IdentityModel.Tokens.EncryptingCredentials,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:System.IdentityModel.Tokens.Jwt.JwtHeader"/>.
+            With the Header Parameters:
+            <para>{ { typ, JWT }, { alg, EncryptingCredentials.Algorithm } }</para>
+            </summary>
+            <param name="encryptingCredentials"><see cref="P:System.IdentityModel.Tokens.Jwt.JwtHeader.EncryptingCredentials"/> used when creating a JWS Compact JSON.</param>
+            <param name="outboundAlgorithmMap">provides a mapping for the 'alg' value so that values are within the JWT namespace.</param>
+            <param name="tokenType"> provides the token type</param>
+            <param name="additionalHeaderClaims">Defines the dictionary containing any custom header claims that need to be added to the outer JWT token header.</param>
+            <param name="includeKeyIdInHeader">Controls if key identifying information should be stored in the header</param>
             <exception cref="T:System.ArgumentNullException">If 'encryptingCredentials' is null.</exception>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtHeader.#ctor(Microsoft.IdentityModel.Tokens.EncryptingCredentials,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
@@ -237,13 +262,13 @@
             <summary>
             Gets the certificate used to sign the token
             </summary>
-            <remarks>If the 'x5c' claim is not found, null is returned.</remarks>   
+            <remarks>If the 'x5c' claim is not found, null is returned.</remarks>
         </member>
         <member name="P:System.IdentityModel.Tokens.Jwt.JwtHeader.Zip">
             <summary>
             Gets the 'value' of the 'zip' claim { zip, 'value' }.
             </summary>
-            <remarks>If the 'zip' claim is not found, null is returned.</remarks>   
+            <remarks>If the 'zip' claim is not found, null is returned.</remarks>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtHeader.Base64UrlDeserialize(System.String)">
             <summary>
@@ -395,28 +420,62 @@
             <para>The 4 parameters: 'issuer', 'audience', 'notBefore', 'expires' take precedence over <see cref="T:System.Security.Claims.Claim"/>(s) in 'claims'. The values will be overridden.</para></remarks>
             <exception cref="T:System.ArgumentException">If 'expires' &lt;= 'notbefore'.</exception>
         </member>
-        <member name="M:System.IdentityModel.Tokens.Jwt.JwtPayload.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{System.Security.Claims.Claim},System.Collections.Generic.IDictionary{System.String,System.Object},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:System.IdentityModel.Tokens.Jwt.JwtPayload.#ctor(System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IEnumerable{System.Security.Claims.Claim},System.Collections.Generic.IDictionary{System.String,System.Object},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Initializes a new instance of the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> class with claims added for each parameter specified. Default string comparer <see cref="P:System.StringComparer.Ordinal"/>. 
             </summary>
-            <param name="issuer">If this value is not null, a { iss, 'issuer' } claim will be added, overwriting any 'iss' claim in 'claims' and 'claimCollection' if present.</param>
-            <param name="audience">If this value is not null, a { aud, 'audience' } claim will be added, appending to any 'aud' claims in 'claims' or 'claimCollection' if present.</param>
+            <param name="issuer">If this value is not null, an { iss, 'issuer' } claim will be added, overwriting any 'iss' claim in 'claims' and 'claimCollection' if present.</param>
+            <param name="audiences">If this value is not null, all non-null non-whitespace strings in it will be added to an { aud, 'audience' }, appending to any 'aud' claims in 'claims' or 'claimCollection' if present. </param>
             <param name="claims">If this value is not null then for each <see cref="T:System.Security.Claims.Claim"/> a { 'Claim.Type', 'Claim.Value' } is added. If duplicate claims are found then a { 'Claim.Type', List&lt;object&gt; } will be created to contain the duplicate values.</param>
             <param name="claimsCollection">If both <paramref name="claims"/> and <paramref name="claimsCollection"/> are not null then the values in claims will be combined with the values in claimsCollection. The values found in claimCollection take precedence over those found in claims, so any duplicate
             values will be overridden.</param>
-            <param name="notBefore">If notbefore.HasValue a { nbf, 'value' } claim is added, overwriting any 'nbf' claim in 'claims' and 'claimcollection' if present.</param>
-            <param name="expires">If expires.HasValue a { exp, 'value' } claim is added, overwriting any 'exp' claim in 'claims' and 'claimcollection' if present.</param>
-            <param name="issuedAt">If issuedAt.HasValue is 'true' a { iat, 'value' } claim is added, overwriting any 'iat' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="notBefore">If notbefore.HasValue an { nbf, 'value' } claim is added, overwriting any 'nbf' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="expires">If expires.HasValue an { exp, 'value' } claim is added, overwriting any 'exp' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="issuedAt">If issuedAt.HasValue is 'true' an { iat, 'value' } claim is added, overwriting any 'iat' claim in 'claims' and 'claimcollection' if present.</param>
             <remarks>Comparison is set to <see cref="P:System.StringComparer.Ordinal"/>
             <para>The 4 parameters: 'issuer', 'audience', 'notBefore', 'expires' take precedence over <see cref="T:System.Security.Claims.Claim"/>(s) in 'claims' and 'claimcollection'. The values will be overridden.</para></remarks>
             <exception cref="T:System.ArgumentException">If 'expires' &lt;= 'notbefore'.</exception>
         </member>
-        <member name="M:System.IdentityModel.Tokens.Jwt.JwtPayload.AddFirstPriorityClaims(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:System.IdentityModel.Tokens.Jwt.JwtPayload.#ctor(System.String,System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IEnumerable{System.Security.Claims.Claim},System.Collections.Generic.IDictionary{System.String,System.Object},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> class with claims added for each parameter specified. Default string comparer <see cref="P:System.StringComparer.Ordinal"/>. 
+            </summary>
+            <param name="issuer">If this value is not null, an { iss, 'issuer' } claim will be added, overwriting any 'iss' claim in 'claims' and 'claimCollection' if present.</param>
+            <param name="audience">If this value is not null, an { aud, 'audience' } claim will be added, appending to any 'aud' claims in 'claims' or 'claimCollection' if present.</param>
+            <param name="audiences">If this value is not null, all non-null non-whitespace strings in it will be added to an { aud, 'audience' }, appending to any 'aud' claims in 'claims' or 'claimCollection' if present. </param>
+            <param name="claims">If this value is not null then for each <see cref="T:System.Security.Claims.Claim"/> a { 'Claim.Type', 'Claim.Value' } is added. If duplicate claims are found then a { 'Claim.Type', List&lt;object&gt; } will be created to contain the duplicate values.</param>
+            <param name="claimsCollection">If both <paramref name="claims"/> and <paramref name="claimsCollection"/> are not null then the values in claims will be combined with the values in claimsCollection. The values found in claimCollection take precedence over those found in claims, so any duplicate
+            values will be overridden.</param>
+            <param name="notBefore">If notbefore.HasValue an { nbf, 'value' } claim is added, overwriting any 'nbf' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="expires">If expires.HasValue an { exp, 'value' } claim is added, overwriting any 'exp' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="issuedAt">If issuedAt.HasValue is 'true' an { iat, 'value' } claim is added, overwriting any 'iat' claim in 'claims' and 'claimcollection' if present.</param>
+            <remarks>Comparison is set to <see cref="P:System.StringComparer.Ordinal"/>
+            <para>The 4 parameters: 'issuer', 'audience', 'notBefore', 'expires' take precedence over <see cref="T:System.Security.Claims.Claim"/>(s) in 'claims' and 'claimcollection'. The values will be overridden.</para></remarks>
+            <exception cref="T:System.ArgumentException">If 'expires' &lt;= 'notbefore'.</exception>
+        </member>
+        <member name="M:System.IdentityModel.Tokens.Jwt.JwtPayload.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{System.Security.Claims.Claim},System.Collections.Generic.IDictionary{System.String,System.Object},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> class with claims added for each parameter specified. Default string comparer <see cref="P:System.StringComparer.Ordinal"/>. 
+            </summary>
+            <param name="issuer">If this value is not null, an { iss, 'issuer' } claim will be added, overwriting any 'iss' claim in 'claims' and 'claimCollection' if present.</param>
+            <param name="audience">If this value is not null, an { aud, 'audience' } claim will be added, appending to any 'aud' claims in 'claims' or 'claimCollection' if present.</param>
+            <param name="claims">If this value is not null then for each <see cref="T:System.Security.Claims.Claim"/> a { 'Claim.Type', 'Claim.Value' } is added. If duplicate claims are found then a { 'Claim.Type', List&lt;object&gt; } will be created to contain the duplicate values.</param>
+            <param name="claimsCollection">If both <paramref name="claims"/> and <paramref name="claimsCollection"/> are not null then the values in claims will be combined with the values in claimsCollection. The values found in claimCollection take precedence over those found in claims, so any duplicate
+            values will be overridden.</param>
+            <param name="notBefore">If notbefore.HasValue an { nbf, 'value' } claim is added, overwriting any 'nbf' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="expires">If expires.HasValue an { exp, 'value' } claim is added, overwriting any 'exp' claim in 'claims' and 'claimcollection' if present.</param>
+            <param name="issuedAt">If issuedAt.HasValue is 'true' an { iat, 'value' } claim is added, overwriting any 'iat' claim in 'claims' and 'claimcollection' if present.</param>
+            <remarks>Comparison is set to <see cref="P:System.StringComparer.Ordinal"/>
+            <para>The 4 parameters: 'issuer', 'audience', 'notBefore', 'expires' take precedence over <see cref="T:System.Security.Claims.Claim"/>(s) in 'claims' and 'claimcollection'. The values will be overridden.</para></remarks>
+            <exception cref="T:System.ArgumentException">If 'expires' &lt;= 'notbefore'.</exception>
+        </member>
+        <member name="M:System.IdentityModel.Tokens.Jwt.JwtPayload.AddFirstPriorityClaims(System.String,System.String,System.Collections.Generic.IList{System.String},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Adds Nbf, Exp, Iat, Iss and Aud claims to payload
             </summary>
             <param name="issuer">If this value is not null, a { iss, 'issuer' } claim will be added, overwriting any 'iss' claim in <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> instance.</param>
             <param name="audience">If this value is not null, a { aud, 'audience' } claim will be added, appending to any 'aud' claims in <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> instance.</param>
+            <param name="audiences">If there are strings that are not null or empty append them to any other Aud claims</param>
             <param name="notBefore">If notbefore.HasValue a { nbf, 'value' } claim is added, overwriting any 'nbf' claim in <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> instance.</param>
             <param name="expires">If expires.HasValue a { exp, 'value' } claim is added, overwriting any 'exp' claim in <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> instance.</param>
             <param name="issuedAt">If issuedAt.HasValue is 'true' a { iat, 'value' } claim is added, overwriting any 'iat' claim in <see cref="T:System.IdentityModel.Tokens.Jwt.JwtPayload"/> instance.</param>
@@ -597,6 +656,7 @@
             List of registered claims from different sources
             https://datatracker.ietf.org/doc/html/rfc7519#section-4
             http://openid.net/specs/openid-connect-core-1_0.html#IDToken
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             </summary>
         </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Actort">
@@ -608,9 +668,24 @@
             http://openid.net/specs/openid-connect-core-1_0.html#IDToken
             </summary>
         </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Alg">
+            <summary>
+            https://datatracker.ietf.org/doc/html/rfc7519#section-4
+            </summary>
+        </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Amr">
             <summary>
             http://openid.net/specs/openid-connect-core-1_0.html#IDToken
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Address">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.AtHash">
+            <summary>
+            http://openid.net/specs/openid-connect-core-1_0.html#CodeIDToken
             </summary>
         </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Aud">
@@ -638,12 +713,12 @@
             https://openid.net/specs/openid-connect-core-1_0.html#HybridIDToken
             </summary>
         </member>
-        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.AtHash">
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email">
             <summary>
-            http://openid.net/specs/openid-connect-core-1_0.html#CodeIDToken
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             </summary>
         </member>
-        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email">
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.EmailVerified">
             <summary>
             https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             </summary>
@@ -683,6 +758,16 @@
             https://datatracker.ietf.org/doc/html/rfc7519#section-4
             </summary>
         </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Locale">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.MiddleName">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Name">
             <summary>
             https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
@@ -690,6 +775,11 @@
         </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.NameId">
             <summary>
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Nickname">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             </summary>
         </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Nonce">
@@ -702,8 +792,33 @@
             https://datatracker.ietf.org/doc/html/rfc7519#section-4
             </summary>
         </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.PhoneNumber">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.PhoneNumberVerified">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Picture">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Prn">
             <summary>
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.PreferredUsername">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Profile">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             </summary>
         </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sid">
@@ -725,8 +840,18 @@
             <summary>
             </summary>
         </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.UpdatedAt">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+            </summary>
+        </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Website">
             <summary>
+            </summary>
+        </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.ZoneInfo">
+            <summary>
+            https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             </summary>
         </member>
         <member name="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken">
@@ -1052,14 +1177,14 @@
         </member>
         <member name="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.MapInboundClaims">
             <summary>
-            Gets or sets the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.MapInboundClaims"/> property which is used when determining whether or not to map claim types that are extracted when validating a <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>. 
+            Gets or sets the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.MapInboundClaims"/> property which is used when determining whether or not to map claim types that are extracted when validating a <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>.
             <para>If this is set to true, the <see cref="P:System.Security.Claims.Claim.Type"/> is set to the JSON claim 'name' after translating using this mapping. Otherwise, no mapping occurs.</para>
             <para>The default value is true.</para>
             </summary>
         </member>
         <member name="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.InboundClaimTypeMap">
             <summary>
-            Gets or sets the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.InboundClaimTypeMap"/> which is used when setting the <see cref="P:System.Security.Claims.Claim.Type"/> for claims in the <see cref="T:System.Security.Claims.ClaimsPrincipal"/> extracted when validating a <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>. 
+            Gets or sets the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.InboundClaimTypeMap"/> which is used when setting the <see cref="P:System.Security.Claims.Claim.Type"/> for claims in the <see cref="T:System.Security.Claims.ClaimsPrincipal"/> extracted when validating a <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>.
             <para>The <see cref="P:System.Security.Claims.Claim.Type"/> is set to the JSON claim 'name' after translating using this mapping.</para>
             <para>The default value is ClaimTypeMapping.InboundClaimTypeMap.</para>
             </summary>
@@ -1321,7 +1446,7 @@
             Deserializes token with the provided <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/>.
             </summary>
             <param name="reader"><see cref="T:System.Xml.XmlReader"/>.</param>
-            <param name="validationParameters">The current <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/>.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <returns>The <see cref="T:Microsoft.IdentityModel.Tokens.SecurityToken"/></returns>
             <remarks>This method is not current supported.</remarks>
         </member>
@@ -1330,7 +1455,7 @@
             Reads and validates a 'JSON Web Token' (JWT) encoded as a JWS or JWE in Compact Serialized Format.
             </summary>
             <param name="token">the JWT encoded as JWE or JWS</param>
-            <param name="validationParameters">Contains validation parameters for the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <param name="validatedToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> that was validated.</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="token"/> is null or whitespace.</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="validationParameters"/> is null.</exception>
@@ -1351,7 +1476,7 @@
             <exception cref="T:Microsoft.IdentityModel.Tokens.SecurityTokenReplayAddFailedException"><paramref name="token"/> could not be added to the <see cref="P:Microsoft.IdentityModel.Tokens.TokenValidationParameters.TokenReplayCache"/>.</exception>
             <exception cref="T:Microsoft.IdentityModel.Tokens.SecurityTokenReplayDetectedException"><paramref name="token"/> is found in the cache.</exception>
             <returns> A <see cref="T:System.Security.Claims.ClaimsPrincipal"/> from the JWT. Does not include claims found in the JWT header.</returns>
-            <remarks> 
+            <remarks>
             Many of the exceptions listed above are not thrown directly from this method. See <see cref="T:Microsoft.IdentityModel.Tokens.Validators"/> to examine the call graph.
             </remarks>
         </member>
@@ -1374,7 +1499,7 @@
             Validates the JSON payload of a <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>.
             </summary>
             <param name="jwtToken">The token to validate.</param>
-            <param name="validationParameters">Contains validation parameters for the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <returns>A <see cref="T:System.Security.Claims.ClaimsPrincipal"/> from the jwt. Does not include the header claims.</returns>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)">
@@ -1412,7 +1537,7 @@
             Validates that the signature, if found or required, is valid.
             </summary>
             <param name="token">A JWS token.</param>
-            <param name="validationParameters"><see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> that contains signing keys.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <exception cref="T:System.ArgumentNullException">If <paramref name="token"/> is null or whitespace.</exception>
             <exception cref="T:System.ArgumentNullException">If <paramref name="validationParameters"/> is null.</exception>
             <exception cref="T:Microsoft.IdentityModel.Tokens.SecurityTokenValidationException">If a signature is not found and <see cref="P:Microsoft.IdentityModel.Tokens.TokenValidationParameters.RequireSignedTokens"/> is true.</exception>
@@ -1431,7 +1556,7 @@
             </summary>
             <param name="jwtToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> to use as a <see cref="T:System.Security.Claims.Claim"/> source.</param>
             <param name="issuer">The value to set <see cref="P:System.Security.Claims.Claim.Issuer"/></param>
-            <param name="validationParameters"> Contains parameters for validating the token.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <returns>A <see cref="T:System.Security.Claims.ClaimsIdentity"/> containing the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.Claims"/>.</returns>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateActorValue(System.Security.Claims.ClaimsIdentity)">
@@ -1443,8 +1568,8 @@
             <remarks>If <see cref="P:System.Security.Claims.ClaimsIdentity.BootstrapContext"/> is not null:
             <para>&#160;&#160;If 'type' is 'string', return as string.</para>
             <para>&#160;&#160;if 'type' is 'BootstrapContext' and 'BootstrapContext.SecurityToken' is 'JwtSecurityToken'</para>
-            <para>&#160;&#160;&#160;&#160;if 'JwtSecurityToken.RawData' != null, return RawData.</para>        
-            <para>&#160;&#160;&#160;&#160;else return <see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)"/>.</para>        
+            <para>&#160;&#160;&#160;&#160;if 'JwtSecurityToken.RawData' != null, return RawData.</para>
+            <para>&#160;&#160;&#160;&#160;else return <see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)"/>.</para>
             <para>&#160;&#160;if 'BootstrapContext.Token' != null, return 'Token'.</para>
             <para>default: <see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)"/> new ( <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>( actor.Claims ).</para>
             </remarks>
@@ -1456,7 +1581,7 @@
             </summary>
             <param name="audiences">The audiences found in the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>.</param>
             <param name="jwtToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> being validated.</param>
-            <param name="validationParameters"><see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> required for validation.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <remarks>See <see cref="M:Microsoft.IdentityModel.Tokens.Validators.ValidateAudience(System.Collections.Generic.IEnumerable{System.String},Microsoft.IdentityModel.Tokens.SecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)"/> for additional details.</remarks>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateLifetime(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.IdentityModel.Tokens.Jwt.JwtSecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
@@ -1466,7 +1591,7 @@
             <param name="notBefore">The <see cref="T:System.DateTime"/> value of the 'nbf' claim if it exists in the 'jwtToken'.</param>
             <param name="expires">The <see cref="T:System.DateTime"/> value of the 'exp' claim if it exists in the 'jwtToken'.</param>
             <param name="jwtToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> being validated.</param>
-            <param name="validationParameters"><see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> required for validation.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <remarks><see cref="M:Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(System.Nullable{System.DateTime},System.Nullable{System.DateTime},Microsoft.IdentityModel.Tokens.SecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)"/> for additional details.</remarks>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateIssuer(System.String,System.IdentityModel.Tokens.Jwt.JwtSecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
@@ -1475,7 +1600,7 @@
             </summary>
             <param name="issuer">The issuer to validate</param>
             <param name="jwtToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> that is being validated.</param>
-            <param name="validationParameters"><see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> required for validation.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <returns>The issuer to use when creating the <see cref="T:System.Security.Claims.Claim"/>(s) in the <see cref="T:System.Security.Claims.ClaimsIdentity"/>.</returns>
             <remarks><see cref="M:Microsoft.IdentityModel.Tokens.Validators.ValidateIssuer(System.String,Microsoft.IdentityModel.Tokens.SecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)"/> for additional details.</remarks>
         </member>
@@ -1485,7 +1610,7 @@
             </summary>
             <param name="expires">The <see cref="T:System.DateTime"/> value of the 'exp' claim if it exists in the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>'.</param>
             <param name="securityToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> that is being validated.</param>
-            <param name="validationParameters"><see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> required for validation.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ResolveIssuerSigningKey(System.String,System.IdentityModel.Tokens.Jwt.JwtSecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
             <summary>
@@ -1493,7 +1618,7 @@
             </summary>
             <param name="token">The <see cref="T:System.String"/> representation of the token that is being validated.</param>
             <param name="jwtToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> that is being validated.</param>
-            <param name="validationParameters">A <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/>  required for validation.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <returns>Returns a <see cref="T:Microsoft.IdentityModel.Tokens.SecurityKey"/> to use for signature validation.</returns>
             <remarks>If key fails to resolve, then null is returned</remarks>
         </member>
@@ -1503,13 +1628,13 @@
             </summary>
             <param name="token">The <see cref="T:System.String"/> the token that is being decrypted.</param>
             <param name="jwtToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> that is being decrypted.</param>
-            <param name="validationParameters">A <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/>  required for validation.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <returns>Returns a <see cref="T:Microsoft.IdentityModel.Tokens.SecurityKey"/> to use for signature validation.</returns>
             <remarks>If key fails to resolve, then null is returned</remarks>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DecryptToken(System.IdentityModel.Tokens.Jwt.JwtSecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
             <summary>
-            Decrypts a JWE and returns the clear text 
+            Decrypts a JWE and returns the clear text
             </summary>
             <param name="jwtToken">the JWE that contains the cypher text.</param>
             <param name="validationParameters">contains crypto material.</param>
@@ -1526,7 +1651,7 @@
             </summary>
             <param name="key">The <see cref="T:Microsoft.IdentityModel.Tokens.SecurityKey"/> that signed the <see cref="T:Microsoft.IdentityModel.Tokens.SecurityToken"/>.</param>
             <param name="securityToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> to validate.</param>
-            <param name="validationParameters">The current <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/>.</param>
+            <param name="validationParameters">The <see cref="T:Microsoft.IdentityModel.Tokens.TokenValidationParameters"/> to be used for validating the token.</param>
             <remarks>If the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.SigningKey"/> is a <see cref="T:Microsoft.IdentityModel.Tokens.X509SecurityKey"/> then the X509Certificate2 will be validated using the CertificateValidator.</remarks>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(System.Xml.XmlWriter,Microsoft.IdentityModel.Tokens.SecurityToken)">
