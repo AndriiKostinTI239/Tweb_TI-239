@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 C:\Users\Young\source\repos\FRM\FRM\bin\FRM.dll.config
 C:\Users\Young\source\repos\FRM\FRM\bin\FRM.dll
 C:\Users\Young\source\repos\FRM\FRM\bin\FRM.pdb
@@ -128,6 +129,10 @@ C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.csproj.CoreCompileInputs.cache
 C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.csproj.Up2Date
 C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.dll
 C:\Users\Young\source\repos\FRM\FRM\obj\Debug\FRM.pdb
+=======
+D:\FRM\FRM\obj\Debug\FRM.csproj.AssemblyReference.cache
+D:\FRM\FRM\obj\Debug\FRM.csproj.CoreCompileInputs.cache
+>>>>>>> Stashed changes
 D:\FRM\FRM\bin\FRM.dll.config
 D:\FRM\FRM\bin\FRM.dll
 D:\FRM\FRM\bin\FRM.pdb
@@ -188,11 +193,18 @@ D:\FRM\FRM\bin\FRM.BuisnessLogic.dll
 D:\FRM\FRM\bin\FRM.Core.dll
 D:\FRM\FRM\bin\FRM.Domain.dll
 D:\FRM\FRM\bin\Microsoft.Bcl.AsyncInterfaces.dll
+D:\FRM\FRM\bin\Microsoft.Bcl.TimeProvider.dll
 D:\FRM\FRM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\FRM\FRM\bin\Microsoft.Extensions.Logging.Abstractions.dll
+D:\FRM\FRM\bin\Microsoft.IdentityModel.Abstractions.dll
+D:\FRM\FRM\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\FRM\FRM\bin\Microsoft.IdentityModel.Logging.dll
+D:\FRM\FRM\bin\Microsoft.IdentityModel.Tokens.dll
 D:\FRM\FRM\bin\Microsoft.Web.Infrastructure.dll
 D:\FRM\FRM\bin\Newtonsoft.Json.dll
 D:\FRM\FRM\bin\Npgsql.dll
 D:\FRM\FRM\bin\System.Buffers.dll
+D:\FRM\FRM\bin\System.Diagnostics.DiagnosticSource.dll
 D:\FRM\FRM\bin\System.Memory.dll
 D:\FRM\FRM\bin\System.Numerics.Vectors.dll
 D:\FRM\FRM\bin\System.Runtime.CompilerServices.Unsafe.dll
@@ -209,25 +221,26 @@ D:\FRM\FRM\bin\System.Web.WebPages.dll
 D:\FRM\FRM\bin\System.Web.WebPages.Razor.dll
 D:\FRM\FRM\bin\WebGrease.dll
 D:\FRM\FRM\bin\System.IdentityModel.Tokens.Jwt.dll
-D:\FRM\FRM\bin\Microsoft.IdentityModel.Tokens.dll
-D:\FRM\FRM\bin\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\FRM\FRM\bin\Microsoft.IdentityModel.Logging.dll
-D:\FRM\FRM\bin\Microsoft.IdentityModel.Abstractions.dll
-D:\FRM\FRM\bin\System.Diagnostics.DiagnosticSource.dll
-D:\FRM\FRM\bin\Microsoft.Extensions.Logging.Abstractions.dll
-D:\FRM\FRM\bin\Microsoft.Bcl.TimeProvider.dll
 D:\FRM\FRM\bin\FRM.BuisnessLogic.pdb
 D:\FRM\FRM\bin\FRM.BuisnessLogic.dll.config
 D:\FRM\FRM\bin\FRM.Core.pdb
+D:\FRM\FRM\bin\FRM.Core.dll.config
 D:\FRM\FRM\bin\FRM.Domain.pdb
 D:\FRM\FRM\bin\FRM.Domain.dll.config
 D:\FRM\FRM\bin\EntityFramework.xml
 D:\FRM\FRM\bin\EntityFramework.SqlServer.xml
 D:\FRM\FRM\bin\EntityFramework6.Npgsql.xml
 D:\FRM\FRM\bin\Microsoft.Bcl.AsyncInterfaces.xml
+D:\FRM\FRM\bin\Microsoft.Bcl.TimeProvider.xml
+D:\FRM\FRM\bin\Microsoft.Extensions.Logging.Abstractions.xml
+D:\FRM\FRM\bin\Microsoft.IdentityModel.Abstractions.xml
+D:\FRM\FRM\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+D:\FRM\FRM\bin\Microsoft.IdentityModel.Logging.xml
+D:\FRM\FRM\bin\Microsoft.IdentityModel.Tokens.xml
 D:\FRM\FRM\bin\Npgsql.pdb
 D:\FRM\FRM\bin\Npgsql.xml
 D:\FRM\FRM\bin\System.Buffers.xml
+D:\FRM\FRM\bin\System.Diagnostics.DiagnosticSource.xml
 D:\FRM\FRM\bin\System.Memory.xml
 D:\FRM\FRM\bin\System.Numerics.Vectors.xml
 D:\FRM\FRM\bin\System.Runtime.CompilerServices.Unsafe.xml
@@ -246,6 +259,7 @@ D:\FRM\FRM\bin\Newtonsoft.Json.xml
 D:\FRM\FRM\bin\Antlr3.Runtime.pdb
 D:\FRM\FRM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\FRM\FRM\bin\System.IdentityModel.Tokens.Jwt.xml
+<<<<<<< Updated upstream
 D:\FRM\FRM\bin\Microsoft.IdentityModel.Tokens.xml
 D:\FRM\FRM\bin\Microsoft.IdentityModel.JsonWebTokens.xml
 D:\FRM\FRM\bin\Microsoft.IdentityModel.Logging.xml
@@ -255,6 +269,8 @@ D:\FRM\FRM\bin\Microsoft.Extensions.Logging.Abstractions.xml
 D:\FRM\FRM\bin\Microsoft.Bcl.TimeProvider.xml
 D:\FRM\FRM\obj\Debug\FRM.csproj.AssemblyReference.cache
 D:\FRM\FRM\obj\Debug\FRM.csproj.CoreCompileInputs.cache
+=======
+>>>>>>> Stashed changes
 D:\FRM\FRM\obj\Debug\FRM.csproj.Up2Date
 D:\FRM\FRM\obj\Debug\FRM.dll
 D:\FRM\FRM\obj\Debug\FRM.pdb

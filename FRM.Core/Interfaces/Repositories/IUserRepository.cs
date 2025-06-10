@@ -9,5 +9,10 @@ namespace FRM.Core.Interfaces.Repositories
     {
         Task<UserEf> GetByEmailAsync(string email);
         Task CreateAsync(UserEf user);
+<<<<<<< Updated upstream
     }
 }
+=======
+        Task UpdateAsync(UserEf user);
+}
+>>>>>>> Stashed changes

@@ -1,0 +1,29 @@
+﻿@model FRM.Core.Entities.ThreadEf
+
+<h2>@Model.Title</h2>
+<p>@Model.Content</p>
+<div class="meta">
+    <span>Автор: @(Model.Author?.Name ?? "Unknown")</span>
+    <span>Дата: @Model.CreatedAt.ToString("g")</span>
+</div>
+
+<h3>Комментарии (@(Model.Comments?.Count ?? 0))</h3>
+
+@if (Model.Comments != null)
+{
+    foreach (var comment in Model.Comments)
+    {
+        <div class="comment">
+            <p>@comment.Content</p>
+            <div class="meta">
+                <span>@(comment.Author?.Name ?? "Unknown")</span>
+                <span>@comment.CreatedAt.ToString("g")</span>
+            </div>
+        </div>
+    }
+}
+
+@using (Html.BeginForm("AddComment", "Thread", new { threadId = Model.Id }))
+{
+    // Форма комментария
+}
