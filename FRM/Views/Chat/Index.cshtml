@@ -1,0 +1,30 @@
+﻿@model IEnumerable<FRM.Core.Entities.Message>
+@{
+    ViewBag.Title = "Общий чат";
+}
+
+<h2>Общий чат</h2>
+
+<div class="container">
+    <div id="messagesList" style="height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        @* Сюда будут добавляться сообщения *@
+        @foreach (var msg in Model)
+        {
+            <div><strong>@msg.UserName:</strong> @msg.Text <small class="text-muted">(@msg.Timestamp.ToString("g"))</small></div>
+        }
+    </div>
+    <hr />
+    <div class="form-inline">
+        <input type="text" id="userName" class="form-control" placeholder="Ваше имя" />
+        <input type="text" id="messageText" class="form-control" placeholder="Введите сообщение..." style="width: 50%;" />
+        <input type="button" id="sendButton" value="Отправить" class="btn btn-primary" />
+    </div>
+</div>
+
+@* Скрипты для SignalR *@
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @* Скрипт чата, который мы напишем на следующем шаге *@
+    <script src="~/Scripts/chat.js"></script>
+}
