@@ -10,4 +10,5 @@ using FRM.Core.Entities;
         Task<UserEf> GetByEmailAsync(string email);
         Task<UserEf> GetByIdAsync(Guid id); // Добавляем этот метод
         Task CreateAsync(UserEf user);
-    }
+        Task UpdateAsync(UserEf user);
+}

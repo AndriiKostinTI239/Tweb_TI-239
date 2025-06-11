@@ -13,6 +13,7 @@ namespace FRM.Domain
         public DbSet<CommentEf> Comments { get; set; }
         public DbSet<Message> Messages { get; set; }
 
+ 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

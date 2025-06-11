@@ -1,0 +1,40 @@
+﻿@model FRM.Core.DTOs.ProfileViewDto
+
+@{
+    ViewBag.Title = "Мой профиль";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@* Блок для отображения сообщений об успехе после редиректа *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div>
+    <h4>Основная информация</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Редактировать профиль", "Edit", "Profile", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Сменить пароль", "ChangePassword", "Profile", null, new { @class = "btn btn-default" })
+</p>
