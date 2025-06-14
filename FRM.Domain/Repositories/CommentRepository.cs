@@ -28,5 +28,37 @@ namespace FRM.Domain.Repositories
                 .OrderBy(c => c.CreatedAt) // Исправлено: правильный синтаксис OrderBy
                 .ToListAsync();
         }
+        public async Task DeleteAsync(Guid id)
+        {
+            var commentToDelete = await _context.Comments
+                .Include(c => c.Replies) // Загружаем дочерние комментарии
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (commentToDelete != null)
+            {
+                // Вызываем рекурсивный метод удаления
+                RemoveCommentAndReplies(commentToDelete);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // --- ДОБАВЬ ЭТОТ РЕКУРСИВНЫЙ МЕТОД ---
+        private void RemoveCommentAndReplies(CommentEf comment)
+        {
+            // Сначала рекурсивно удаляем все дочерние комментарии
+            // Важно работать с копией коллекции, так как она будет изменяться
+            var replies = comment.Replies.ToList();
+            foreach (var reply in replies)
+            {
+                RemoveCommentAndReplies(reply); // Рекурсивный вызов
+            }
+
+            // После того как все "дети" удалены, удаляем сам комментарий
+            _context.Comments.Remove(comment);
+        }   
+        public async Task<CommentEf> GetByIdAsync(Guid id)
+        {
+            return await _context.Comments.FindAsync(id);
+        }
     }
 }

@@ -124,13 +124,37 @@ namespace FRM.Controllers
         // Метод для получения ID текущего пользователя (такой же, как в ThreadController)
         private Guid GetCurrentUserId()
         {
-            // Это будет работать, если в Global.asax ты парсишь UserData из cookie
-            // и создаешь GenericPrincipal с ClaimsIdentity
-            var identity = (FormsIdentity)User.Identity;
-            var ticket = identity.Ticket;
-            var userData = ticket.UserData.Split('|');
+            // Пытаемся получить Identity как FormsIdentity
+            var formsIdentity = User.Identity as FormsIdentity;
+            if (formsIdentity == null)
+            {
+                // Если не получилось, значит пользователь не аутентифицирован через Forms
+                return Guid.Empty;
+            }
 
-            return Guid.Parse(userData[0]);
+            // Получаем билет аутентификации
+            var ticket = formsIdentity.Ticket;
+            if (ticket == null)
+            {
+                return Guid.Empty;
+            }
+
+            // Извлекаем UserData, которую мы записали при входе
+            var userData = ticket.UserData;
+            if (string.IsNullOrEmpty(userData))
+            {
+                return Guid.Empty;
+            }
+
+            // Разделяем строку, чтобы получить ID
+            var userDataParts = userData.Split('|');
+            if (userDataParts.Length > 0 && Guid.TryParse(userDataParts[0], out Guid userId))
+            {
+                return userId;
+            }
+
+            // Если не удалось распарсить Guid, возвращаем пустой Guid
+            return Guid.Empty;
         }
     }
 }

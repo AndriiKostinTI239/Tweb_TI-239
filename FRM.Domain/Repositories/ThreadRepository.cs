@@ -37,7 +37,17 @@ namespace FRM.Domain.Repositories
             return await _context.Threads
                 .Include(t => t.Author)
                 .Include(t => t.Comments.Select(c => c.Author))
+
                 .FirstOrDefaultAsync(t => t.Id == id);
+        }
+        public async Task DeleteAsync(Guid id)
+        {
+            var thread = await _context.Threads.FindAsync(id);
+            if (thread != null)
+            {
+                _context.Threads.Remove(thread);
+                await _context.SaveChangesAsync();
+            }
         }
         public async Task<IEnumerable<ThreadEf>> GetThreadsByAuthorIdAsync(Guid authorId)
         {

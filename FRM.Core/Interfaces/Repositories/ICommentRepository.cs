@@ -11,5 +11,7 @@ namespace FRM.Core.Interfaces.Repositories
     {
         Task AddAsync(CommentEf comment);
         Task<IEnumerable<CommentEf>> GetByThreadIdAsync(Guid threadId);
+        Task DeleteAsync(Guid id);
+        Task<CommentEf> GetByIdAsync(Guid id);
     }
 }

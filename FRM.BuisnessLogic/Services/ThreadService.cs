@@ -53,7 +53,8 @@ namespace FRM.BuisnessLogic.Services
                 // Защита от null-значений
                 AuthorName = t.Author?.Name ?? "Неизвестный автор",
                 // Защита от null-коллекции
-                CommentCount = t.Comments?.Count ?? 0
+                CommentCount = t.Comments?.Count ?? 0,
+                AuthorId = t.AuthorId
             });
         }
 
@@ -68,10 +69,41 @@ namespace FRM.BuisnessLogic.Services
             {
                 Content = dto.Content,
                 ThreadId = threadId,
-                AuthorId = authorId
+                AuthorId = authorId,
+                ParentCommentId = dto.ParentCommentId
             };
 
             await _commentRepo.AddAsync(comment);
+        }
+        public async Task<bool> DeleteThreadAsync(Guid threadId, Guid currentUserId)
+        {
+            var thread = await _threadRepo.GetByIdAsync(threadId);
+            if (thread == null) return false; // Тред не найден
+
+            // ГЛАВНАЯ ПРОВЕРКА БЕЗОПАСНОСТИ
+            if (thread.AuthorId != currentUserId)
+            {
+                return false; // Попытка удалить чужой тред
+            }
+
+            await _threadRepo.DeleteAsync(threadId);
+            return true;
+        }
+
+        // --- РЕАЛИЗАЦИЯ УДАЛЕНИЯ КОММЕНТАРИЯ С ПРОВЕРКОЙ ПРАВ ---
+        public async Task<bool> DeleteCommentAsync(Guid commentId, Guid currentUserId)
+        {
+            var comment = await _commentRepo.GetByIdAsync(commentId);
+            if (comment == null) return false; // Комментарий не найден
+
+            // ГЛАВНАЯ ПРОВЕРКА БЕЗОПАСНОСТИ
+            if (comment.AuthorId != currentUserId)
+            {
+                return false; // Попытка удалить чужой комментарий
+            }
+
+            await _commentRepo.DeleteAsync(commentId);
+            return true;
         }
     }
 }

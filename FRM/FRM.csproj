@@ -311,10 +311,12 @@
     <Content Include="Views\Account\SignIn.cshtml" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Thread\View.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Views\Thread\Index.cshtml" />
+    <Content Include="Views\Thread\Create.cshtml" />
+    <Content Include="Views\Thread\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

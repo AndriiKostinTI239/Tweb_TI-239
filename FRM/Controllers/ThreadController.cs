@@ -9,6 +9,7 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace FRM.Controllers
 {
@@ -29,12 +30,13 @@ namespace FRM.Controllers
             _threadService = new ThreadService(threadRepo, commentRepo, userRepo);
         }
     
-    // Остальной код...
+   
 
 
         [HttpGet]
         public async Task<ActionResult> Index()
         {
+            ViewBag.CurrentUserId = GetCurrentUserId();
             var threads = await _threadService.GetAllThreadsAsync();
             return View(threads);
         }
@@ -49,6 +51,12 @@ namespace FRM.Controllers
             if (!ModelState.IsValid) return View(dto);
 
             var userId = GetCurrentUserId();
+            if (userId == Guid.Empty)
+            {
+                // Если по какой-то причине не удалось получить ID,
+                // возвращаем пользователя на страницу входа
+                return RedirectToAction("SignIn", "Account");
+            }
             await _threadService.CreateThreadAsync(dto, userId);
 
             return RedirectToAction("Index");
@@ -57,6 +65,8 @@ namespace FRM.Controllers
         [HttpGet]
         public async Task<ActionResult> View(Guid id)
         {
+
+            ViewBag.CurrentUserId = GetCurrentUserId();
             var thread = await _threadService.GetThreadByIdAsync(id);
             if (thread == null) return HttpNotFound();
 
@@ -65,25 +75,82 @@ namespace FRM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Теперь метод принимает DTO, а не отдельные параметры
         public async Task<ActionResult> AddComment(AddCommentDto dto, Guid threadId)
         {
             if (!ModelState.IsValid)
             {
-                // Обработка ошибок
+                // В случае ошибки лучше вернуть на ту же страницу с сообщением об ошибке
+                // Это более сложная логика, пока просто редиректим
                 return RedirectToAction("View", new { id = threadId });
             }
 
             var userId = GetCurrentUserId();
+            if (userId == Guid.Empty) return new HttpUnauthorizedResult();
+
             await _threadService.AddCommentAsync(dto, threadId, userId);
 
             return RedirectToAction("View", new { id = threadId });
         }
-
         private Guid GetCurrentUserId()
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-            return Guid.Parse(userIdClaim.Value);
+            // Пытаемся получить Identity как FormsIdentity
+            var formsIdentity = User.Identity as FormsIdentity;
+            if (formsIdentity == null)
+            {
+                // Если не получилось, значит пользователь не аутентифицирован через Forms
+                return Guid.Empty;
+            }
+
+            // Получаем билет аутентификации
+            var ticket = formsIdentity.Ticket;
+            if (ticket == null)
+            {
+                return Guid.Empty;
+            }
+
+            // Извлекаем UserData, которую мы записали при входе
+            var userData = ticket.UserData;
+            if (string.IsNullOrEmpty(userData))
+            {
+                return Guid.Empty;
+            }
+
+            // Разделяем строку, чтобы получить ID
+            var userDataParts = userData.Split('|');
+            if (userDataParts.Length > 0 && Guid.TryParse(userDataParts[0], out Guid userId))
+            {
+                return userId;
+            }
+
+            return Guid.Empty;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteThread(Guid id)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == Guid.Empty) return new HttpUnauthorizedResult();
+
+            var success = await _threadService.DeleteThreadAsync(id, userId);
+
+            // Тут можно добавить сообщение в TempData, если `success` is false
+
+            return RedirectToAction("Index"); // Перенаправляем на список тем
+        }
+
+        // --- ЭКШЕН ДЛЯ УДАЛЕНИЯ КОММЕНТАРИЯ ---
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        
+        public async Task<ActionResult> DeleteComment(Guid id, Guid threadId)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == Guid.Empty) return new HttpUnauthorizedResult();
+
+            await _threadService.DeleteCommentAsync(id, userId);
+
+            return RedirectToAction("View", new { id = threadId }); // Возвращаемся на страницу треда
         }
     }
 }

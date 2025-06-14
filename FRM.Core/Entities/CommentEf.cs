@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Collections.Generic;
 namespace FRM.Core.Entities
 {
     public class CommentEf
@@ -21,5 +21,9 @@ namespace FRM.Core.Entities
         // Навигационные свойства
         public virtual ThreadEf Thread { get; set; }
         public virtual UserEf Author { get; set; }
+        public Guid? ParentCommentId { get; set; } // Nullable, т.к. у корневых комментариев нет родителя
+
+        public virtual CommentEf ParentComment { get; set; }
+        public virtual ICollection<CommentEf> Replies { get; set; } = new List<CommentEf>();
     }
 }

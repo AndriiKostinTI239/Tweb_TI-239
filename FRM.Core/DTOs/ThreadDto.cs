@@ -10,5 +10,6 @@ namespace FRM.Core.DTOs
         public DateTime CreatedAt { get; set; }
         public string AuthorName { get; set; }
         public int CommentCount { get; set; }
+        public Guid AuthorId { get; set; }
     }
 }

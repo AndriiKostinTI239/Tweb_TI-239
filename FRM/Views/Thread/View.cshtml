@@ -1,65 +1,158 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+﻿@model FRM.Core.Entities.ThreadEf
 
 @{
     ViewBag.Title = Model.Title;
 }
 
-<div class="container mt-4" style="position: relative; top: 40px;">
-    <div class="card shadow-sm">
+@*
+    РЕКУРСИВНЫЙ ХЕЛПЕР ДЛЯ ОТРИСОВКИ ДЕРЕВА КОММЕНТАРИЕВ
+    Он принимает комментарий и уровень вложенности (для отступа).
+*@
+@helper RenderComment(FRM.Core.Entities.CommentEf comment, int level)
+{
+    var margin = level * 30; // Отступ для вложенных комментариев
+    var defaultAvatar = Url.Content("~/Content/Images/default-avatar.png");
+    var avatarUrl = (comment.Author?.ProfilePictureUrl != null)
+        ? Url.Content(comment.Author.ProfilePictureUrl)
+        : defaultAvatar;
+
+    <div class="card mb-3" style="margin-left: @(margin)px;">
         <div class="card-body">
-            <h2 class="card-title text-primary">@Model.Title</h2>
+            <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                    <img src="@avatarUrl" alt="avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;" />
+                </div>
+                <div class="flex-grow-1">
+                    <p style="white-space: pre-line;">@comment.Content</p>
+                    <footer class="blockquote-footer">
+                        @(comment.Author != null ? comment.Author.Name : "Аноним")
+                        <cite title="Source Title">в @comment.CreatedAt.ToString("dd.MM.yyyy HH:mm")</cite>
+                    </footer>
 
-            <div class="text-muted small mb-3">
-                <i class="fa fa-user"></i> Posted @Model.PostedAt.ToString("g") by <strong>@Model.Author</strong>
-            </div>
-
-            <div class="mb-3">
-                <strong>Tags:</strong>
-                @foreach (var tag in Model.Tags)
-                {
-                    <span class="badge bg-primary me-1">@tag</span>
-                }
-            </div>
-
-            <hr />
-
-            <div class="mb-4" style="white-space: pre-line;">
-                <p>@Model.Content</p>
-            </div>
-
-            <div class="text-muted small">
-                <strong>Votes:</strong> @Model.Votes |
-                <strong>Replies:</strong> @Model.Replies |
-                <strong>Views:</strong> @Model.Views
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button class="btn btn-sm btn-link reply-btn" data-comment-id="@comment.Id">Ответить</button>
+                        @* --- КНОПКА УДАЛЕНИЯ КОММЕНТАРИЯ --- *@
+                        if (comment.AuthorId == (Guid)ViewBag.CurrentUserId)
+                        {
+                            using (Html.BeginForm("DeleteComment", "Thread", FormMethod.Post, new { @style = "display:inline;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@comment.Id" />
+                                <input type="hidden" name="threadId" value="@Model.Id" />
+                                <button type="submit" class="btn btn-sm btn-link text-danger" onclick="return confirm('Удалить этот комментарий?');">
+                                    Удалить
+                                </button>
+                            }
+                        }
+                        @* Скрытая форма для ответа на этот конкретный комментарий *@
+                        <div id="reply-form-@comment.Id" style="display: none;" class="mt-2">
+                            @using (Html.BeginForm("AddComment", "Thread", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="threadId" value="@Model.Id" />
+                                <input type="hidden" name="ParentCommentId" value="@comment.Id" />
+                                <div class="mb-2">
+                                    <textarea class="form-control" name="Content" rows="2" placeholder="Ваш ответ..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary">Отправить</button>
+                            }
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
+
+    @* Рекурсивно вызываем этот же хелпер для всех ответов на текущий комментарий *@
+    if (comment.Replies != null && comment.Replies.Any())
+    {
+        foreach (var reply in comment.Replies.OrderBy(r => r.CreatedAt))
+        {
+            @RenderComment(reply, level + 1)
+        }
+    }
+}
+
+
+<div class="container mt-4" style="position: relative; top: 40px;">
+    @* ... Блок с информацией о треде (оставляем без изменений) ... *@
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-primary">@Model.Title</h2>
+            @* --- КНОПКА УДАЛЕНИЯ ВСЕГО ТРЕДА --- *@
+            @if (User.Identity.IsAuthenticated && Model.AuthorId == (Guid)ViewBag.CurrentUserId)
+            {
+                <div class="float-end">
+                    @using (Html.BeginForm("DeleteThread", "Thread", new { id = Model.Id }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить эту тему со всеми комментариями?');">
+                            Удалить тему
+                        </button>
+                    }
+                </div>
+            }
+            <div class="text-muted small mb-3">
+                <i class="fa fa-user"></i> Опубликовано @Model.CreatedAt.ToString("g")
+                автором <strong>@(Model.Author != null ? Model.Author.Name : "Неизвестный автор")</strong>
+            </div>
+            <hr />
+            <div class="mb-4" style="white-space: pre-line;">
+                <p>@Model.Content</p>
+            </div>
+        </div>
+    </div>
+
+    @* --- Основная форма добавления комментария (для корневых комментариев) --- *@
     <div class="mt-5">
         <h4>Добавить комментарий</h4>
         @if (User.Identity.IsAuthenticated)
         {
-            <form asp-action="AddComment" asp-controller="Thread" method="post">
+            using (Html.BeginForm("AddComment", "Thread", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
                 <input type="hidden" name="threadId" value="@Model.Id" />
+                @* ParentCommentId здесь не нужен, он будет null по умолчанию *@
                 <div class="mb-3">
-                    <textarea class="form-control" name="content" rows="3" placeholder="Введите ваш комментарий"></textarea>
+                    <textarea class="form-control" name="Content" rows="3" placeholder="Введите ваш комментарий"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Отправить</button>
-            </form>
+            }
         }
         else
         {
-            <p>Пожалуйста, <a href="@Url.Action("Login", "Account")">войдите</a>, чтобы оставить комментарий.</p>
+            <p>Пожалуйста, <a href="@Url.Action("SignIn", "Account")">войдите</a>, чтобы оставить комментарий.</p>
         }
     </div>
 
+    @* --- Список комментариев --- *@
     <div class="mt-5">
-        <h4>Комментарии</h4>
+        <h4>Комментарии (@(Model.Comments != null ? Model.Comments.Count : 0))</h4>
 
-        <!-- Пример комментария -->
-        <div class="card mb-3">
+        @if (Model.Comments != null && Model.Comments.Any())
+        {
+            @* Вызываем хелпер только для корневых комментариев (у которых нет родителя) *@
+            foreach (var comment in Model.Comments.Where(c => c.ParentCommentId == null).OrderBy(c => c.CreatedAt))
+            {
+                @RenderComment(comment, 0)
+            }
+        }
+        else
+        {
+            <p>Комментариев пока нет. Будьте первым!</p>
+        }
+    </div>
+</div>
 
+@* Добавляем скрипт для обработки нажатия на кнопку "Ответить" *@
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.reply-btn').on('click', function () {
+                var commentId = $(this).data('comment-id');
+                $('#reply-form-' + commentId).slideToggle();
+            });
+        });
+    </script>
+}

@@ -12,4 +12,6 @@ public interface IThreadService
     Task<IEnumerable<ThreadDto>> GetAllThreadsAsync();
     Task<ThreadEf> GetThreadByIdAsync(Guid id);
     Task AddCommentAsync(AddCommentDto dto, Guid threadId, Guid authorId);
+    Task<bool> DeleteThreadAsync(Guid threadId, Guid currentUserId);
+    Task<bool> DeleteCommentAsync(Guid commentId, Guid currentUserId);
 }

@@ -48,6 +48,7 @@ D:\baban\FRM.Domain\obj\Debug\FRM.Domain.Migrations.auth.resources
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.Migrations.AddThreadsAndComments.resources
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.Migrations.AddChatMessagesTable.resources
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.Migrations.AddProfilePictureToUser.resources
+D:\baban\FRM.Domain\obj\Debug\FRM.Domain.Migrations.AddNestedComments.resources
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.csproj.GenerateResource.cache
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.csproj.CoreCompileInputs.cache
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.csproj.Up2Date

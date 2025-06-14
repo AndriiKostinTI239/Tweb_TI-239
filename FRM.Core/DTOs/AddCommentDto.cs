@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace FRM.Core.DTOs
 {
@@ -6,5 +7,6 @@ namespace FRM.Core.DTOs
     {
         [Required(ErrorMessage = "Комментарий не может быть пустым")]
         public string Content { get; set; }
+        public Guid? ParentCommentId { get; set; }
     }
 }
