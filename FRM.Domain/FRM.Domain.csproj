@@ -119,6 +119,10 @@
     <Compile Include="Migrations\202506100143278_AddChatMessagesTable.Designer.cs">
       <DependentUpon>202506100143278_AddChatMessagesTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506141207046_AddProfilePictureToUser.cs" />
+    <Compile Include="Migrations\202506141207046_AddProfilePictureToUser.Designer.cs">
+      <DependentUpon>202506141207046_AddProfilePictureToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
@@ -148,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202506100143278_AddChatMessagesTable.resx">
       <DependentUpon>202506100143278_AddChatMessagesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506141207046_AddProfilePictureToUser.resx">
+      <DependentUpon>202506141207046_AddProfilePictureToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

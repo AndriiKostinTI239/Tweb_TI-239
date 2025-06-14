@@ -1,58 +1,13 @@
-# Visual Studio
+# Visual Studio files
 .vs/
-*.suo
 *.user
-*.userosscache
-*.sln.docstates
-
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-build/
-bld/
-[Bb]in/
-[Oo]bj/
-
-# NuGet Packages
-*.nupkg
-*.nuget.props
-*.nuget.targets
-packages/
-
-# IDE files
-*.DotSettings.user
-*.resharper
-
-# User-specific files
-*.dbmdl
-*_i.c
-*_p.c
-*_i.h
-*.ilk
-*.meta
+*.suo
+*.cache
+*.db
 *.obj
-*.pch
+*.exe
+*.dll
 *.pdb
-*.pgc
-*.pgd
-*.rsp
-*.sbr
-*.tlb
-*.tli
-*.tlh
-*.tmp
-*.tmp_proj
 *.log
-*.vspscc
-*.vssscc
-.builds
-*.pidb
-*.log
-*.scc
-
-# Other
-Thumbs.db
+bin/
+obj/

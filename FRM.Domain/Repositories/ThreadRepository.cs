@@ -39,5 +39,12 @@ namespace FRM.Domain.Repositories
                 .Include(t => t.Comments.Select(c => c.Author))
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task<IEnumerable<ThreadEf>> GetThreadsByAuthorIdAsync(Guid authorId)
+        {
+            return await _context.Threads
+                .Where(t => t.AuthorId == authorId)
+                .OrderByDescending(t => t.CreatedAt) // Сортируем, чтобы новые были сверху
+                .ToListAsync();
+        }
     }
 }

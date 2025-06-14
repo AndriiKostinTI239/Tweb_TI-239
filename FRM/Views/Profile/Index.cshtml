@@ -1,7 +1,11 @@
 ﻿@model FRM.Core.DTOs.ProfileViewDto
-
+@using FRM.Core.DTOs
 @{
     ViewBag.Title = "Мой профиль";
+    // Определяем путь к картинке. Если у пользователя нет аватара, показываем дефолтный
+    var profileImageUrl = !string.IsNullOrEmpty(Model.ProfilePictureUrl)
+        ? Url.Content(Model.ProfilePictureUrl)
+        : Url.Content("~/Content/Images/default-avatar.png");
 }
 
 <h2>@ViewBag.Title</h2>
@@ -16,6 +20,10 @@
 }
 
 <div>
+    <div style="margin-bottom: 20px;">
+        <img src="@profileImageUrl" alt="Аватар" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" />
+    </div>
+
     <h4>Основная информация</h4>
     <dl class="dl-horizontal">
         <dt>
@@ -31,6 +39,12 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
+        <dt>
+            Количество тем
+        </dt>
+        <dd>
+            @Model.UserThreads.Count()
+        </dd>
     </dl>
 </div>
 
@@ -38,3 +52,24 @@
     @Html.ActionLink("Редактировать профиль", "Edit", "Profile", null, new { @class = "btn btn-primary" })
     @Html.ActionLink("Сменить пароль", "ChangePassword", "Profile", null, new { @class = "btn btn-default" })
 </p>
+<hr />
+<h3>Созданные темы</h3>
+
+@if (Model.UserThreads != null && Model.UserThreads.Any())
+{
+    <div class="list-group">
+        @foreach (ThreadDto thread in Model.UserThreads)
+        {
+            <a href="@Url.Action("View", "Thread", new { id = thread.Id })" class="list-group-item">
+                <h4 class="list-group-item-heading">@thread.Title</h4>
+                <p class="list-group-item-text">
+                    Создана: @thread.CreatedAt.ToString("dd.MM.yyyy в HH:mm")
+                </p>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <p>Пользователь еще не создал ни одной темы.</p>
+}

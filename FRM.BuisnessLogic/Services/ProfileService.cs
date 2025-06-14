@@ -4,7 +4,10 @@ using FRM.Core.DTOs;
 using FRM.Core.Interfaces.Repositories;
 using FRM.Core.Interfaces.Services;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Web;
 
 namespace FRM.BuisnessLogic.Services
 {
@@ -12,11 +15,13 @@ namespace FRM.BuisnessLogic.Services
     {
         private readonly IUserRepository _userRepo;
         private readonly Hasher _hasher;
+        private readonly IThreadRepository _threadRepo;
 
         // Конструктор для DI (если будешь использовать) и для ручного создания
-        public ProfileService(IUserRepository userRepo, Hasher hasher)
+        public ProfileService(IUserRepository userRepo, IThreadRepository threadRepo, Hasher hasher)
         {
             _userRepo = userRepo;
+            _threadRepo = threadRepo; // Теперь это будет работать
             _hasher = hasher;
         }
 
@@ -24,12 +29,25 @@ namespace FRM.BuisnessLogic.Services
         {
             var user = await _userRepo.GetByIdAsync(userId);
             if (user == null) return null;
+            var userThreads = await _threadRepo.GetThreadsByAuthorIdAsync(userId);
+
+            var threadDtos = userThreads.Select(t => new ThreadDto
+            {
+                Id = t.Id,
+                Title = t.Title,
+                CreatedAt = t.CreatedAt,
+                // Здесь нам не нужен AuthorName, так как мы уже на странице автора
+                // CommentCount тоже можно опустить для простоты или посчитать, если нужно
+                CommentCount = t.Comments?.Count ?? 0
+            }).ToList();
 
             return new ProfileViewDto
             {
                 Id = user.Id,
                 Name = user.Name,
-                Email = user.Email
+                Email = user.Email,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                UserThreads = threadDtos
             };
         }
 
@@ -84,5 +102,47 @@ namespace FRM.BuisnessLogic.Services
 
             return true;
         }
-    }
+        public async Task<bool> UpdateProfilePictureAsync(Guid userId, HttpPostedFileBase uploadedFile)
+        {
+            if (uploadedFile == null || uploadedFile.ContentLength == 0)
+                return false;
+
+            var user = await _userRepo.GetByIdAsync(userId);
+            if (user == null) return false;
+
+            // 1. Определяем путь для сохранения
+            var uploadsFolder = "~/Uploads/ProfilePictures";
+            var physicalFolder = HttpContext.Current.Server.MapPath(uploadsFolder);
+
+            // Создаем папку, если ее нет
+            if (!Directory.Exists(physicalFolder))
+            {
+                Directory.CreateDirectory(physicalFolder);
+            }
+
+            // 2. Удаляем старый файл, если он был
+            if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
+            {
+                var oldFilePath = HttpContext.Current.Server.MapPath(user.ProfilePictureUrl);
+                if (File.Exists(oldFilePath))
+                {
+                    File.Delete(oldFilePath);
+                }
+            }
+
+            // 3. Создаем уникальное имя файла, чтобы избежать конфликтов
+            var fileExtension = Path.GetExtension(uploadedFile.FileName);
+            var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+            var newFilePath = Path.Combine(physicalFolder, uniqueFileName);
+
+            // 4. Сохраняем новый файл
+            uploadedFile.SaveAs(newFilePath);
+
+            // 5. Обновляем путь в базе данных
+            user.ProfilePictureUrl = $"{uploadsFolder}/{uniqueFileName}";
+            await _userRepo.UpdateAsync(user);
+
+            return true;
+        }
+        }
 }

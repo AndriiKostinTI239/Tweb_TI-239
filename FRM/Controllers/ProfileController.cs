@@ -8,6 +8,7 @@ using FRM.Domain.Repositories;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security; // Для FormsAuthentication
 
@@ -31,7 +32,8 @@ namespace FRM.Controllers
             var context = new AppDbContext();
             var userRepo = new UserRepository(context);
             var hasher = new Hasher();
-            _profileService = new ProfileService(userRepo, hasher);
+            var threadRepo = new ThreadRepository(context);
+            _profileService = new ProfileService(userRepo, threadRepo, hasher);
         }
 
         // Показывает профиль текущего пользователя
@@ -60,7 +62,8 @@ namespace FRM.Controllers
         // Обрабатывает отправку формы редактирования
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ProfileEditDto dto)
+        // Добавляем параметр HttpPostedFileBase profilePicture
+        public async Task<ActionResult> Edit(ProfileEditDto dto, HttpPostedFileBase profilePicture)
         {
             if (!ModelState.IsValid)
             {
@@ -68,18 +71,25 @@ namespace FRM.Controllers
             }
 
             var userId = GetCurrentUserId();
-            var success = await _profileService.UpdateUserProfileAsync(userId, dto);
 
-            if (success)
+            // Обновляем основную информацию
+            var profileUpdateSuccess = await _profileService.UpdateUserProfileAsync(userId, dto);
+            if (!profileUpdateSuccess)
             {
-                TempData["SuccessMessage"] = "Профиль успешно обновлен!";
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", "Пользователь с таким Email уже существует.");
+                return View(dto);
             }
 
-            // Если email уже занят
-            ModelState.AddModelError("", "Пользователь с таким Email уже существует.");
-            return View(dto);
+            // Если был загружен файл, обновляем аватар
+            if (profilePicture != null && profilePicture.ContentLength > 0)
+            {
+                await _profileService.UpdateProfilePictureAsync(userId, profilePicture);
+            }
+
+            TempData["SuccessMessage"] = "Профиль успешно обновлен!";
+            return RedirectToAction("Index");
         }
+
 
         // Показывает форму смены пароля
         [HttpGet]

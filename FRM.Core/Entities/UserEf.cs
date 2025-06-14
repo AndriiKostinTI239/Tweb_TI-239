@@ -12,7 +12,7 @@ namespace FRM.Core.Entities
         public string PhoneNumber { get; set; }
         public string HashPassword { get; set; }
         public bool AgreeToTerms { get; set; }
-
         public UserRole Role { get; set; }
+        public string ProfilePictureUrl { get; set; }
     }
 }
