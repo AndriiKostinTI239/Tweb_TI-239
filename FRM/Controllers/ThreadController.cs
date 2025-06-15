@@ -14,12 +14,12 @@ using System.Web.Security;
 namespace FRM.Controllers
 {
     [Authorize]
-    public class ThreadController : Controller
+    public class ThreadController : BaseController
     {
         private readonly IThreadService _threadService;
       
 
-        public ThreadController()
+        public ThreadController() : base()
         {
             var context = new AppDbContext();
 
@@ -92,39 +92,7 @@ namespace FRM.Controllers
 
             return RedirectToAction("View", new { id = threadId });
         }
-        private Guid GetCurrentUserId()
-        {
-            // Пытаемся получить Identity как FormsIdentity
-            var formsIdentity = User.Identity as FormsIdentity;
-            if (formsIdentity == null)
-            {
-                // Если не получилось, значит пользователь не аутентифицирован через Forms
-                return Guid.Empty;
-            }
-
-            // Получаем билет аутентификации
-            var ticket = formsIdentity.Ticket;
-            if (ticket == null)
-            {
-                return Guid.Empty;
-            }
-
-            // Извлекаем UserData, которую мы записали при входе
-            var userData = ticket.UserData;
-            if (string.IsNullOrEmpty(userData))
-            {
-                return Guid.Empty;
-            }
-
-            // Разделяем строку, чтобы получить ID
-            var userDataParts = userData.Split('|');
-            if (userDataParts.Length > 0 && Guid.TryParse(userDataParts[0], out Guid userId))
-            {
-                return userId;
-            }
-
-            return Guid.Empty;
-        }
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteThread(Guid id)

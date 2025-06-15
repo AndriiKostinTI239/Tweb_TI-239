@@ -14,7 +14,7 @@ using FRM.Domain.Repositories;
 
 namespace FRM.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IAuthService _authService;
 

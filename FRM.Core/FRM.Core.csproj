@@ -56,6 +56,7 @@
     <Compile Include="DTOs\AddCommentDto.cs" />
     <Compile Include="DTOs\ChangePasswordDto.cs" />
     <Compile Include="DTOs\CreateTrheadDto.cs" />
+    <Compile Include="DTOs\LayoutUserDto.cs" />
     <Compile Include="DTOs\ProfileEditDto.cs" />
     <Compile Include="DTOs\ProfileViewDto.cs" />
     <Compile Include="DTOs\SignIn.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Interfaces\Repositories\IUserRepository.cs" />
     <Compile Include="Interfaces\Services\IAuthService.cs" />
     <Compile Include="Interfaces\Services\IChatService.cs" />
+    <Compile Include="Interfaces\Services\ILayoutService.cs" />
     <Compile Include="Interfaces\Services\IProfileService.cs" />
     <Compile Include="Interfaces\Services\IThreadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

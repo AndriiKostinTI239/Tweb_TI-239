@@ -199,6 +199,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -324,6 +325,8 @@
     <Folder Include="Models\" />
     <Folder Include="obj\Debug\TempPE\" />
     <Folder Include="Properties\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\LoadLayoutDataAttribute\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FRM.BuisnessLogic\FRM.BusinessLogic.csproj">

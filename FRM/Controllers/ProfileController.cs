@@ -15,7 +15,7 @@ using System.Web.Security; // Для FormsAuthentication
 namespace FRM.Controllers
 {
     [Authorize] // Все действия в этом контроллере требуют авторизации
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
         private readonly IProfileService _profileService;
 

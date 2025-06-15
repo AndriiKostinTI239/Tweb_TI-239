@@ -10,12 +10,12 @@ using FRM.Domain.Repositories;
 
 namespace FRM.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         // --- ДОБАВЬТЕ ЭТИ ПОЛЯ И КОНСТРУКТОР ---
         private readonly IThreadService _threadService;
 
-        public HomeController()
+        public HomeController() : base()
         {
             // Ручное создание зависимостей, как в других ваших контроллерах
             var context = new AppDbContext();
@@ -55,33 +55,6 @@ namespace FRM.Controllers
 
         // --- ДОБАВЬТЕ МЕТОД ДЛЯ ПОЛУЧЕНИЯ ID ПОЛЬЗОВАТЕЛЯ ---
         // (Скопируйте его из ThreadController или ProfileController)
-        private Guid GetCurrentUserId()
-        {
-            var formsIdentity = User.Identity as FormsIdentity;
-            if (formsIdentity == null || !formsIdentity.IsAuthenticated)
-            {
-                return Guid.Empty;
-            }
-
-            var ticket = formsIdentity.Ticket;
-            if (ticket == null)
-            {
-                return Guid.Empty;
-            }
-
-            var userData = ticket.UserData;
-            if (string.IsNullOrEmpty(userData))
-            {
-                return Guid.Empty;
-            }
-
-            var userDataParts = userData.Split('|');
-            if (userDataParts.Length > 0 && Guid.TryParse(userDataParts[0], out Guid userId))
-            {
-                return userId;
-            }
-
-            return Guid.Empty;
-        }
+       
     }
 }

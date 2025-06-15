@@ -56,5 +56,12 @@ namespace FRM.Domain.Repositories
                 .OrderByDescending(t => t.CreatedAt) // Сортируем, чтобы новые были сверху
                 .ToListAsync();
         }
+        public async Task<int> CountThreadsByAuthorInLastWeekAsync(Guid authorId)
+        {
+            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
+
+            return await _context.Threads
+                .CountAsync(t => t.AuthorId == authorId && t.CreatedAt >= oneWeekAgo);
+        }
     }
 }
