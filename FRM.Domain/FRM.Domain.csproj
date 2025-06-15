@@ -127,6 +127,10 @@
     <Compile Include="Migrations\202506141531130_AddNestedComments.Designer.cs">
       <DependentUpon>202506141531130_AddNestedComments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506151534064_AddViewsCountToThread.cs" />
+    <Compile Include="Migrations\202506151534064_AddViewsCountToThread.Designer.cs">
+      <DependentUpon>202506151534064_AddViewsCountToThread.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
@@ -162,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202506141531130_AddNestedComments.resx">
       <DependentUpon>202506141531130_AddNestedComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506151534064_AddViewsCountToThread.resx">
+      <DependentUpon>202506151534064_AddViewsCountToThread.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

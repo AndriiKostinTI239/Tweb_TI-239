@@ -63,5 +63,11 @@ namespace FRM.Domain.Repositories
             return await _context.Threads
                 .CountAsync(t => t.AuthorId == authorId && t.CreatedAt >= oneWeekAgo);
         }
+        public async Task UpdateAsync(ThreadEf thread)
+        {
+            // EntityState.Modified говорит EF, что эта сущность была изменена
+            _context.Entry(thread).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
     }
 }

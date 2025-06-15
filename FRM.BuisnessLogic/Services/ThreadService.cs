@@ -54,13 +54,24 @@ namespace FRM.BuisnessLogic.Services
                 AuthorName = t.Author?.Name ?? "Неизвестный автор",
                 // Защита от null-коллекции
                 CommentCount = t.Comments?.Count ?? 0,
-                AuthorId = t.AuthorId
+                AuthorId = t.AuthorId,
+                ViewsCount = t.ViewsCount
             });
         }
 
         public async Task<ThreadEf> GetThreadByIdAsync(Guid id)
         {
-            return await _threadRepo.GetByIdAsync(id);
+            // Сначала получаем тред из базы
+            var thread = await _threadRepo.GetByIdAsync(id);
+
+            // Если тред существует, увеличиваем счетчик и сохраняем изменения
+            if (thread != null)
+            {
+                thread.ViewsCount++; // Увеличиваем счетчик на 1
+                await _threadRepo.UpdateAsync(thread); // Сохраняем обновленную сущность
+            }
+
+            return thread;
         }
 
         public async Task AddCommentAsync(AddCommentDto dto, Guid threadId, Guid authorId)
@@ -70,6 +81,7 @@ namespace FRM.BuisnessLogic.Services
                 Content = dto.Content,
                 ThreadId = threadId,
                 AuthorId = authorId,
+
                 ParentCommentId = dto.ParentCommentId
             };
 

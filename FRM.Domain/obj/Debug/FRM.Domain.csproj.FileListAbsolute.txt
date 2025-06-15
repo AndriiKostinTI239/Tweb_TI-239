@@ -54,3 +54,4 @@ D:\baban\FRM.Domain\obj\Debug\FRM.Domain.csproj.CoreCompileInputs.cache
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.csproj.Up2Date
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.dll
 D:\baban\FRM.Domain\obj\Debug\FRM.Domain.pdb
+D:\baban\FRM.Domain\obj\Debug\FRM.Domain.Migrations.AddViewsCountToThread.resources

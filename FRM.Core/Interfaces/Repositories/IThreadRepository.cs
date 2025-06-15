@@ -15,5 +15,6 @@ namespace FRM.Core.Interfaces.Repositories
         Task<IEnumerable<ThreadEf>> GetThreadsByAuthorIdAsync(Guid authorId);
         Task DeleteAsync(Guid id);
         Task<int> CountThreadsByAuthorInLastWeekAsync(Guid authorId);
+        Task UpdateAsync(ThreadEf thread);
     }
 }
