@@ -1,7 +1,8 @@
 ﻿// IUserRepository.cs
-using System;
-using System.Threading.Tasks;
 using FRM.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 
@@ -11,4 +12,6 @@ using FRM.Core.Entities;
         Task<UserEf> GetByIdAsync(Guid id); // Добавляем этот метод
         Task CreateAsync(UserEf user);
         Task UpdateAsync(UserEf user);
+        Task<IEnumerable<UserEf>> GetAllAsync();
+
 }

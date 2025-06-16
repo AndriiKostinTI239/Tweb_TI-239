@@ -1,0 +1,69 @@
+﻿@model IEnumerable<FRM.Core.DTOs.UserAdminViewDto>
+
+@{
+    ViewBag.Title = "Управление пользователями";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Статус</th>
+            <th style="width: 150px;">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @* Имя пользователя является ссылкой на его детальный профиль *@
+                @Html.ActionLink(item.Name, "UserProfile", "Admin", new { id = item.Id }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @if (item.IsBanned)
+                    {
+                <span class="label label-danger">Забанен</span>
+                    }
+                    else
+                    {
+                <span class="label label-success">Активен</span>
+                    }
+            </td>
+            <td>
+                @* Не даем банить других администраторов прямо из таблицы *@
+                @if (item.Role != FRM.Core.Enums.UserRole.Admin)
+                    {
+                        if (item.IsBanned)
+                        {
+                            using (Html.BeginForm("Unban", "Admin", new { id = item.Id }, FormMethod.Post, new { @style="display:inline;" }))
+                            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-success btn-xs">Разбанить</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("Ban", "Admin", new { id = item.Id }, FormMethod.Post, new { @style="display:inline;" }))
+                            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger btn-xs">Забанить</button>
+                            }
+                        }
+                    }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

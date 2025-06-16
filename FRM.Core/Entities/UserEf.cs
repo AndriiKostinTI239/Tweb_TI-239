@@ -14,5 +14,7 @@ namespace FRM.Core.Entities
         public bool AgreeToTerms { get; set; }
         public UserRole Role { get; set; }
         public string ProfilePictureUrl { get; set; }
+
+        public bool IsBanned { get; set; } = false;
     }
 }

@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    @* Добавляем немного стилей для нашего нового блока *@
+    @* Ваши стили для блока пользователя *@
     <style>
         .user-info-navbar {
             display: flex;
@@ -33,6 +33,12 @@
             .user-info-navbar .badge {
                 margin-left: 10px;
             }
+
+        /* Дополнительный стиль для админской ссылки */
+        .admin-link {
+            margin-left: 15px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -50,46 +56,52 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
 
-                @* --- НАЧАЛО ИЗМЕНЕНИЙ --- *@
-
-                @* Импортируем наш DTO для удобства *@
                 @using FRM.Core.DTOs
 
-                <ul class="navbar-nav">
-                    @if (Request.IsAuthenticated)
+            <ul class="navbar-nav">
+                @if (Request.IsAuthenticated)
+                {
+                    if (ViewBag.LayoutUserData is LayoutUserDto user)
                     {
-                        // Проверяем, что данные пользователя загрузились из BaseController
-                        if (ViewBag.LayoutUserData is LayoutUserDto user)
-                        {
-                            var defaultAvatar = Url.Content("~/Content/Images/default-avatar.png");
-                            var avatarUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl)
-                                ? Url.Content(user.ProfilePictureUrl)
-                                : defaultAvatar;
+                        var defaultAvatar = Url.Content("~/Content/Images/default-avatar.png");
+                        var avatarUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl)
+                            ? Url.Content(user.ProfilePictureUrl)
+                            : defaultAvatar;
 
-                            <li class="nav-item user-info-navbar">
-                                <a href="@Url.Action("Index", "Profile")" class="nav-link" title="Перейти в профиль">
-                                    <img src="@avatarUrl" class="avatar" />
-                                    <span>@user.Nickname</span>
-                                    <span class="badge bg-info">@user.Rating</span>
-                                </a>
-                            </li>
+                        <li class="nav-item user-info-navbar">
+                            <a href="@Url.Action("Index", "Profile")" class="nav-link" title="Перейти в профиль">
+                                <img src="@avatarUrl" class="avatar" />
+                                <span>@user.Nickname</span>
+                                <span class="badge bg-info">@user.Rating</span>
+                            </a>
+                        </li>
+
+                        @* --- НАЧАЛО ИЗМЕНЕНИЙ --- *@
+                        @* Проверяем, является ли пользователь админом *@
+                        if (User.IsInRole("Admin")) // <-- УБРАН СИМВОЛ '@'
+                        {
                             <li class="nav-item">
-                                @* Форма для выхода теперь скрыта, а ссылка вызывает ее отправку *@
-                                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                }
-                                <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Выйти</a>
+                                @* Ссылка на админ-панель *@
+                                @Html.ActionLink("Moderation", "Index", "Admin", null, new { @class = "nav-link admin-link" })
                             </li>
                         }
+                        @* --- КОНЕЦ ИЗМЕНЕНИЙ --- *@
+
+                        <li class="nav-item">
+                            @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                            }
+                            <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Выйти</a>
+                        </li>
                     }
-                    else
-                    {
-                        <li class="nav-item">@Html.ActionLink("Войти", "SignIn", "Account", null, new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Регистрация", "SignUp", "Account", null, new { @class = "nav-link" })</li>
-                    }
-                </ul>
-                @* --- КОНЕЦ ИЗМЕНЕНИЙ --- *@
+                }
+                else
+                {
+                    <li class="nav-item">@Html.ActionLink("Войти", "SignIn", "Account", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Регистрация", "SignUp", "Account", null, new { @class = "nav-link" })</li>
+                }
+            </ul>
             </div>
         </div>
     </nav>

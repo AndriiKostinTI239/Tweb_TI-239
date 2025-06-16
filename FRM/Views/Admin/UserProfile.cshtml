@@ -1,0 +1,86 @@
+﻿@model FRM.Core.DTOs.UserProfileViewDto
+@using FRM.Core.DTOs
+@using FRM.Core.Enums
+
+@{
+    ViewBag.Title = "Профиль пользователя: " + Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var profileImageUrl = Url.Content("~/Content/Images/default-avatar.png");
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div>
+    <div style="margin-bottom: 20px;">
+        <img src="@profileImageUrl" alt="Аватар" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" />
+    </div>
+
+    <h4>Основная информация</h4>
+    <dl class="dl-horizontal">
+        <dt>ID пользователя</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt>Имя</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>Email</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt>Номер телефона</dt>
+        <dd>@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Не указан" : Model.PhoneNumber)</dd>
+
+        <dt>Роль</dt>
+        <dd>@Html.DisplayFor(model => model.Role)</dd>
+
+        <dt>Статус</dt>
+        <dd>
+            @if (Model.IsBanned)
+            {
+                <span class="label label-danger">Забанен</span>
+            }
+            else
+            {
+                <span class="label label-success">Активен</span>
+            }
+        </dd>
+    </dl>
+</div>
+
+@if (Model.Role != UserRole.Admin)
+{
+    <hr />
+    <h4>Действия администратора</h4>
+    if (Model.IsBanned)
+    {
+        using (Html.BeginForm("Unban", "Admin", new { id = Model.Id }))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">
+                <i class="glyphicon glyphicon-ok-circle"></i> Разбанить пользователя
+            </button>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("Ban", "Admin", new { id = Model.Id }))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">
+                <i class="glyphicon glyphicon-ban-circle"></i> Забанить пользователя
+            </button>
+        }
+    }
+}
+<br />
+<p style="margin-top: 20px;">
+    @Html.ActionLink("« Вернуться к списку пользователей", "Index", "Admin", null, new { @class = "btn btn-default" })
+</p>

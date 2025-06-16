@@ -10,3 +10,15 @@ D:\baban\FRM.Core\obj\Debug\FRM.Core.csproj.CoreCompileInputs.cache
 D:\baban\FRM.Core\obj\Debug\FRM.Core.csproj.Up2Date
 D:\baban\FRM.Core\obj\Debug\FRM.Core.dll
 D:\baban\FRM.Core\obj\Debug\FRM.Core.pdb
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\FRM.Core.dll.config
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\FRM.Core.dll
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\FRM.Core.pdb
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\EntityFramework.dll
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\EntityFramework.SqlServer.dll
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\EntityFramework.xml
+C:\coding\Tweb_TI-239\FRM.Core\bin\Debug\EntityFramework.SqlServer.xml
+C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.csproj.AssemblyReference.cache
+C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.csproj.CoreCompileInputs.cache
+C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.csproj.Up2Date
+C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.dll
+C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.pdb
