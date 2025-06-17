@@ -135,6 +135,18 @@
     <Compile Include="Migrations\202506161316207_AddIsBannedToUser.Designer.cs">
       <DependentUpon>202506161316207_AddIsBannedToUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506171500592_AddLikesToComments.cs" />
+    <Compile Include="Migrations\202506171500592_AddLikesToComments.Designer.cs">
+      <DependentUpon>202506171500592_AddLikesToComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202506171806205_AddImageToComment.cs" />
+    <Compile Include="Migrations\202506171806205_AddImageToComment.Designer.cs">
+      <DependentUpon>202506171806205_AddImageToComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202506171806516_AddImageToThread.cs" />
+    <Compile Include="Migrations\202506171806516_AddImageToThread.Designer.cs">
+      <DependentUpon>202506171806516_AddImageToThread.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
@@ -176,6 +188,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202506161316207_AddIsBannedToUser.resx">
       <DependentUpon>202506161316207_AddIsBannedToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506171500592_AddLikesToComments.resx">
+      <DependentUpon>202506171500592_AddLikesToComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506171806205_AddImageToComment.resx">
+      <DependentUpon>202506171806205_AddImageToComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506171806516_AddImageToThread.resx">
+      <DependentUpon>202506171806516_AddImageToThread.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

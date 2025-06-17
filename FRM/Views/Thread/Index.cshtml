@@ -72,7 +72,7 @@
                                     <span class="op-6">Опубликовано</span>
                                     <a class="text-black" href="#">@TimeHelper.TimeAgo(thread.CreatedAt)</a> @* Используем хелпер времени *@
                                     <span class="op-6">автором</span>
-                                    <a class="text-black" href="#">@thread.AuthorName</a>
+                                    <a class="text-black" href="@Url.Action("Index", "Profile", new { id = thread.AuthorId })">@thread.AuthorName</a>
                                 </p>
                                 @* Тэги пока можно скрыть или оставить как заглушку, так как их нет в модели *@
                                 <!-- <div class="text-sm op-5"> <a class="text-black mr-2" href="#">#Tags</a> </div> -->

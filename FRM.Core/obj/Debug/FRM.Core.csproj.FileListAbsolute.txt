@@ -22,3 +22,15 @@ C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.csproj.CoreCompileInputs.cache
 C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.csproj.Up2Date
 C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.dll
 C:\coding\Tweb_TI-239\FRM.Core\obj\Debug\FRM.Core.pdb
+D:\biba\FRM.Core\bin\Debug\FRM.Core.dll.config
+D:\biba\FRM.Core\bin\Debug\FRM.Core.dll
+D:\biba\FRM.Core\bin\Debug\FRM.Core.pdb
+D:\biba\FRM.Core\bin\Debug\EntityFramework.dll
+D:\biba\FRM.Core\bin\Debug\EntityFramework.SqlServer.dll
+D:\biba\FRM.Core\bin\Debug\EntityFramework.xml
+D:\biba\FRM.Core\bin\Debug\EntityFramework.SqlServer.xml
+D:\biba\FRM.Core\obj\Debug\FRM.Core.csproj.AssemblyReference.cache
+D:\biba\FRM.Core\obj\Debug\FRM.Core.csproj.CoreCompileInputs.cache
+D:\biba\FRM.Core\obj\Debug\FRM.Core.csproj.Up2Date
+D:\biba\FRM.Core\obj\Debug\FRM.Core.dll
+D:\biba\FRM.Core\obj\Debug\FRM.Core.pdb

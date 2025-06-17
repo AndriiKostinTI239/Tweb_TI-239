@@ -12,8 +12,8 @@ namespace FRM.Domain
         public DbSet<ThreadEf> Threads { get; set; }
         public DbSet<CommentEf> Comments { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<LikeEf> Likes { get; set; }
 
- 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -116,6 +116,7 @@
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\ChatService.cs" />
     <Compile Include="Services\LayoutService.cs" />
+    <Compile Include="Services\LikeService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\ThreadService.cs" />
   </ItemGroup>

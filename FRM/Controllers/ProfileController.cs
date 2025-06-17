@@ -37,34 +37,65 @@ namespace FRM.Controllers
         }
 
         // Показывает профиль текущего пользователя
-        [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(Guid? id)
         {
-            var userId = GetCurrentUserId();
-            var profile = await _profileService.GetUserProfileAsync(userId);
+            // Если ID не передан, показываем профиль текущего пользователя
+            // Если ID передан, показываем профиль этого пользователя
+            Guid userIdToShow = id ?? GetCurrentUserId();
 
-            if (profile == null) return HttpNotFound();
+            if (userIdToShow == Guid.Empty)
+            {
+                // Если ID не передан и пользователь не залогинен, отправляем на страницу входа
+                return RedirectToAction("SignIn", "Account");
+            }
 
-            return View(profile); // Нужна View: ~/Views/Profile/Index.cshtml
+            var profile = await _profileService.GetUserProfileAsync(userIdToShow);
+
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Передаем в ViewBag, чтобы знать, чей профиль мы смотрим (свой или чужой)
+            ViewBag.IsMyProfile = (userIdToShow == GetCurrentUserId());
+
+            return View(profile);
         }
-
         // Показывает форму для редактирования профиля
         [HttpGet]
-        public async Task<ActionResult> Edit()
+        public async Task<ActionResult> Edit() // Больше не принимает ID
         {
-            var userId = GetCurrentUserId();
-            var model = await _profileService.GetUserProfileForEditAsync(userId);
-            if (model == null) return HttpNotFound();
+            // Всегда получаем ID ТОЛЬКО текущего залогиненного пользователя
+            var currentUserId = GetCurrentUserId();
+            if (currentUserId == Guid.Empty)
+            {
+                return new HttpUnauthorizedResult(); // Если как-то попал сюда без логина
+            }
 
-            return View(model); // Нужна View: ~/Views/Profile/Edit.cshtml
+            var model = await _profileService.GetUserProfileForEditAsync(currentUserId);
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
         }
-
         // Обрабатывает отправку формы редактирования
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Добавляем параметр HttpPostedFileBase profilePicture
         public async Task<ActionResult> Edit(ProfileEditDto dto, HttpPostedFileBase profilePicture)
         {
+            var currentUserId = GetCurrentUserId();
+            if (currentUserId == Guid.Empty)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            // Передаем ID в сервис для обновления
+            // Сервис тоже может содержать проверку, но лучше делать это на уровне контроллера
+            var success = await _profileService.UpdateUserProfileAsync(currentUserId, dto);
+
             if (!ModelState.IsValid)
             {
                 return View(dto);
@@ -93,12 +124,12 @@ namespace FRM.Controllers
 
         // Показывает форму смены пароля
         [HttpGet]
-        public ActionResult ChangePassword()
+        public ActionResult ChangePassword() // Убедись, что он не принимает ID
         {
-            return View(); // Нужна View: ~/Views/Profile/ChangePassword.cshtml
+            return View();
         }
 
-        // Обрабатывает смену пароля
+        // --- POST-метод ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordDto dto)
@@ -108,8 +139,14 @@ namespace FRM.Controllers
                 return View(dto);
             }
 
-            var userId = GetCurrentUserId();
-            var success = await _profileService.ChangePasswordAsync(userId, dto);
+            // Получаем ID ТОЛЬКО текущего пользователя
+            var currentUserId = GetCurrentUserId();
+            if (currentUserId == Guid.Empty)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var success = await _profileService.ChangePasswordAsync(currentUserId, dto);
 
             if (success)
             {

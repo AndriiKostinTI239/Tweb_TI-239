@@ -16,5 +16,6 @@ namespace FRM.Core.Interfaces.Repositories
         Task DeleteAsync(Guid id);
         Task<int> CountThreadsByAuthorInLastWeekAsync(Guid authorId);
         Task UpdateAsync(ThreadEf thread);
+    
     }
 }

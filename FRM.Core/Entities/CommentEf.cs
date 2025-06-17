@@ -25,5 +25,7 @@ namespace FRM.Core.Entities
 
         public virtual CommentEf ParentComment { get; set; }
         public virtual ICollection<CommentEf> Replies { get; set; } = new List<CommentEf>();
+        public virtual ICollection<LikeEf> Likes { get; set; } = new List<LikeEf>();
+        public string ImageUrl { get; set; }
     }
 }

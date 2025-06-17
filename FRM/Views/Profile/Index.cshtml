@@ -48,10 +48,14 @@
     </dl>
 </div>
 
-<p>
-    @Html.ActionLink("Редактировать профиль", "Edit", "Profile", null, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Сменить пароль", "ChangePassword", "Profile", null, new { @class = "btn btn-default" })
-</p>
+@if (ViewBag.IsMyProfile != null && (bool)ViewBag.IsMyProfile)
+{
+    <p>
+        @* Ссылка на Edit больше не требует ID *@
+        @Html.ActionLink("Редактировать профиль", "Edit", "Profile", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Сменить пароль", "ChangePassword", "Profile", null, new { @class = "btn btn-default" })
+    </p>
+}
 <hr />
 <h3>Созданные темы</h3>
 

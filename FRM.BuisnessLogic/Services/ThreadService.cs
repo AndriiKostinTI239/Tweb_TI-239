@@ -1,11 +1,16 @@
-﻿using FRM.Core.DTOs;
+﻿// FRM.BuisnessLogic.Services/ThreadService.cs
+using FRM.Core.DTOs;
 using FRM.Core.Entities;
 using FRM.Core.Interfaces.Repositories;
 using FRM.Core.Interfaces.Services;
+using FRM.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FRM.BuisnessLogic.Services
 {
@@ -15,10 +20,7 @@ namespace FRM.BuisnessLogic.Services
         private readonly ICommentRepository _commentRepo;
         private readonly IUserRepository _userRepo;
 
-        public ThreadService(
-            IThreadRepository threadRepo,
-            ICommentRepository commentRepo,
-            IUserRepository userRepo)
+        public ThreadService(IThreadRepository threadRepo, ICommentRepository commentRepo, IUserRepository userRepo)
         {
             _threadRepo = threadRepo;
             _commentRepo = commentRepo;
@@ -30,15 +32,55 @@ namespace FRM.BuisnessLogic.Services
             var author = await _userRepo.GetByIdAsync(authorId);
             if (author == null) throw new Exception("User not found");
 
+            string imageUrl = null;
+            if (dto.AttachedImage != null && dto.AttachedImage.ContentLength > 0)
+            {
+                var uploadsFolder = "~/Uploads/ThreadImages";
+                var physicalFolder = HttpContext.Current.Server.MapPath(uploadsFolder);
+                if (!Directory.Exists(physicalFolder))
+                {
+                    Directory.CreateDirectory(physicalFolder);
+                }
+                var fileExtension = Path.GetExtension(dto.AttachedImage.FileName);
+                var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+                var filePath = Path.Combine(physicalFolder, uniqueFileName);
+                dto.AttachedImage.SaveAs(filePath);
+                imageUrl = $"{uploadsFolder}/{uniqueFileName}";
+            }
+
             var thread = new ThreadEf
             {
                 Title = dto.Title,
                 Content = dto.Content,
-                AuthorId = authorId
+                AuthorId = authorId,
+                ImageUrl = imageUrl
             };
-
             await _threadRepo.CreateAsync(thread);
         }
+
+        // --- Метод получения всех тредов (он тоже был правильный) ---
+       
+
+        // --- ВОЗВРАЩАЕМ ЭТОТ МЕТОД К ПРОСТОЙ И НАДЕЖНОЙ ВЕРСИИ ---
+        public async Task<ThreadEf> GetThreadByIdAsync(Guid id)
+        {
+            var thread = await _threadRepo.GetByIdAsync(id);
+
+            if (thread != null)
+            {
+                // Используем сессию для защиты от накрутки просмотров
+                string sessionKey = $"viewed_thread_{id}";
+                if (HttpContext.Current.Session[sessionKey] == null)
+                {
+                    thread.ViewsCount++;
+                    await _threadRepo.UpdateAsync(thread);
+                    HttpContext.Current.Session[sessionKey] = true;
+                }
+            }
+
+            return thread;
+        }
+
 
         public async Task<IEnumerable<ThreadDto>> GetAllThreadsAsync()
         {
@@ -47,72 +89,65 @@ namespace FRM.BuisnessLogic.Services
             {
                 Id = t.Id,
                 Title = t.Title,
-                // Исправление: используем правильное свойство
                 Content = t.Content,
                 CreatedAt = t.CreatedAt,
-                // Защита от null-значений
                 AuthorName = t.Author?.Name ?? "Неизвестный автор",
-                // Защита от null-коллекции
                 CommentCount = t.Comments?.Count ?? 0,
                 AuthorId = t.AuthorId,
                 ViewsCount = t.ViewsCount
             });
         }
 
-        public async Task<ThreadEf> GetThreadByIdAsync(Guid id)
-        {
-            // Сначала получаем тред из базы
-            var thread = await _threadRepo.GetByIdAsync(id);
-
-            // Если тред существует, увеличиваем счетчик и сохраняем изменения
-            if (thread != null)
-            {
-                thread.ViewsCount++; // Увеличиваем счетчик на 1
-                await _threadRepo.UpdateAsync(thread); // Сохраняем обновленную сущность
-            }
-
-            return thread;
-        }
+       
 
         public async Task AddCommentAsync(AddCommentDto dto, Guid threadId, Guid authorId)
         {
+            string imageUrl = null;
+            if (dto.AttachedImage != null && dto.AttachedImage.ContentLength > 0)
+            {
+                var uploadsFolder = "~/Uploads/CommentImages";
+                var physicalFolder = HttpContext.Current.Server.MapPath(uploadsFolder);
+                if (!Directory.Exists(physicalFolder))
+                {
+                    Directory.CreateDirectory(physicalFolder);
+                }
+
+                var fileExtension = Path.GetExtension(dto.AttachedImage.FileName);
+                var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+                var filePath = Path.Combine(physicalFolder, uniqueFileName);
+
+                dto.AttachedImage.SaveAs(filePath);
+                imageUrl = $"{uploadsFolder}/{uniqueFileName}";
+            }
             var comment = new CommentEf
             {
                 Content = dto.Content,
                 ThreadId = threadId,
                 AuthorId = authorId,
-
+                ImageUrl = imageUrl,
                 ParentCommentId = dto.ParentCommentId
             };
 
             await _commentRepo.AddAsync(comment);
         }
+
         public async Task<bool> DeleteThreadAsync(Guid threadId, Guid currentUserId)
         {
             var thread = await _threadRepo.GetByIdAsync(threadId);
-            if (thread == null) return false; // Тред не найден
+            if (thread == null) return false;
 
-            // ГЛАВНАЯ ПРОВЕРКА БЕЗОПАСНОСТИ
-            if (thread.AuthorId != currentUserId)
-            {
-                return false; // Попытка удалить чужой тред
-            }
+            if (thread.AuthorId != currentUserId) return false;
 
             await _threadRepo.DeleteAsync(threadId);
             return true;
         }
 
-        // --- РЕАЛИЗАЦИЯ УДАЛЕНИЯ КОММЕНТАРИЯ С ПРОВЕРКОЙ ПРАВ ---
         public async Task<bool> DeleteCommentAsync(Guid commentId, Guid currentUserId)
         {
             var comment = await _commentRepo.GetByIdAsync(commentId);
-            if (comment == null) return false; // Комментарий не найден
+            if (comment == null) return false;
 
-            // ГЛАВНАЯ ПРОВЕРКА БЕЗОПАСНОСТИ
-            if (comment.AuthorId != currentUserId)
-            {
-                return false; // Попытка удалить чужой комментарий
-            }
+            if (comment.AuthorId != currentUserId) return false;
 
             await _commentRepo.DeleteAsync(commentId);
             return true;

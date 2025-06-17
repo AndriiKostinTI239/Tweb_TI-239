@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web;
 
 namespace FRM.Controllers
 {
@@ -46,9 +47,10 @@ namespace FRM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateThreadDto dto)
+        public async Task<ActionResult> Create(CreateThreadDto dto, HttpPostedFileBase attachedImage)
         {
             if (!ModelState.IsValid) return View(dto);
+            dto.AttachedImage = attachedImage;
 
             var userId = GetCurrentUserId();
             if (userId == Guid.Empty)
@@ -76,8 +78,9 @@ namespace FRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Теперь метод принимает DTO, а не отдельные параметры
-        public async Task<ActionResult> AddComment(AddCommentDto dto, Guid threadId)
+        public async Task<ActionResult> AddComment(AddCommentDto dto, Guid threadId, HttpPostedFileBase attachedImage)
         {
+            dto.AttachedImage = attachedImage;
             if (!ModelState.IsValid)
             {
                 // В случае ошибки лучше вернуть на ту же страницу с сообщением об ошибке

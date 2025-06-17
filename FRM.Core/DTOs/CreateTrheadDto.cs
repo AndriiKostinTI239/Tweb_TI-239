@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web;
 namespace FRM.Core.DTOs
 {
     public class CreateThreadDto
@@ -9,6 +10,7 @@ namespace FRM.Core.DTOs
 
         [Required(ErrorMessage = "Содержание обязательно")]
         public string Content { get; set; }
+        public HttpPostedFileBase AttachedImage { get; set; }
     }
 }
 

@@ -1,6 +1,6 @@
-﻿using FRM.Core.Entities;
+﻿// FRM.Domain.Repositories/ThreadRepository.cs
+using FRM.Core.Entities;
 using FRM.Core.Interfaces.Repositories;
-using FRM.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -37,9 +37,10 @@ namespace FRM.Domain.Repositories
             return await _context.Threads
                 .Include(t => t.Author)
                 .Include(t => t.Comments.Select(c => c.Author))
-
+                .Include(t => t.Comments.Select(c => c.Likes))
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+
         public async Task DeleteAsync(Guid id)
         {
             var thread = await _context.Threads.FindAsync(id);
@@ -49,25 +50,27 @@ namespace FRM.Domain.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
         public async Task<IEnumerable<ThreadEf>> GetThreadsByAuthorIdAsync(Guid authorId)
         {
             return await _context.Threads
                 .Where(t => t.AuthorId == authorId)
-                .OrderByDescending(t => t.CreatedAt) // Сортируем, чтобы новые были сверху
+                .OrderByDescending(t => t.CreatedAt)
                 .ToListAsync();
         }
+
         public async Task<int> CountThreadsByAuthorInLastWeekAsync(Guid authorId)
         {
             var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
-
             return await _context.Threads
                 .CountAsync(t => t.AuthorId == authorId && t.CreatedAt >= oneWeekAgo);
         }
+
         public async Task UpdateAsync(ThreadEf thread)
         {
-            // EntityState.Modified говорит EF, что эта сущность была изменена
             _context.Entry(thread).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+   
     }
 }

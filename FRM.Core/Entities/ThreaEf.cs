@@ -21,7 +21,7 @@ namespace FRM.Core.Entities
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public Guid AuthorId { get; set; }
-
+        public string ImageUrl { get; set; }
         public int ViewsCount { get; set; } = 0;
         public virtual UserEf Author { get; set; }
         public virtual ICollection<CommentEf> Comments { get; set; } = new List<CommentEf>();

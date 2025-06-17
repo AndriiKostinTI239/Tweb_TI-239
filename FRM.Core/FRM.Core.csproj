@@ -65,6 +65,7 @@
     <Compile Include="DTOs\UserAdminViewDto.cs" />
     <Compile Include="DTOs\UserProfileViewDto.cs" />
     <Compile Include="Entities\CommentEf.cs" />
+    <Compile Include="Entities\LikeEf.cs" />
     <Compile Include="Entities\MessageEf.cs" />
     <Compile Include="Entities\ThreaEf.cs" />
     <Compile Include="Entities\UserEf.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Interfaces\Services\IAuthService.cs" />
     <Compile Include="Interfaces\Services\IChatService.cs" />
     <Compile Include="Interfaces\Services\ILayoutService.cs" />
+    <Compile Include="Interfaces\Services\ILikeService.cs" />
     <Compile Include="Interfaces\Services\IProfileService.cs" />
     <Compile Include="Interfaces\Services\IThreadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

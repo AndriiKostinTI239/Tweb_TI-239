@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FRM.Core.Enums;
 
 namespace FRM.Core.Entities
@@ -16,5 +17,6 @@ namespace FRM.Core.Entities
         public string ProfilePictureUrl { get; set; }
 
         public bool IsBanned { get; set; } = false;
+        public virtual ICollection<LikeEf> Likes { get; set; } = new List<LikeEf>();
     }
 }
